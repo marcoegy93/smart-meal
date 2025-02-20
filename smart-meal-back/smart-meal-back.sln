@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "smart-meal-back", "smart-meal-back\smart-meal-back.csproj", "{C70762A0-1653-47F1-8BF0-33C135F0BA23}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "smart-meal-back-test", "smart-meal-back-test\smart-meal-back-test.csproj", "{EAE17A13-E99F-4E14-ACAA-A0A909E9504A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C70762A0-1653-47F1-8BF0-33C135F0BA23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C70762A0-1653-47F1-8BF0-33C135F0BA23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C70762A0-1653-47F1-8BF0-33C135F0BA23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C70762A0-1653-47F1-8BF0-33C135F0BA23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAE17A13-E99F-4E14-ACAA-A0A909E9504A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAE17A13-E99F-4E14-ACAA-A0A909E9504A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAE17A13-E99F-4E14-ACAA-A0A909E9504A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAE17A13-E99F-4E14-ACAA-A0A909E9504A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CFA4C943-18DF-4983-9067-FED8EA352397}
+	EndGlobalSection
+EndGlobal

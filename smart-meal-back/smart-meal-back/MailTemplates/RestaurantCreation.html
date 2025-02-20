@@ -1,0 +1,68 @@
+﻿<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #333333;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #463DEE;
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .button {
+            display: block;
+            padding: 15px 25px;
+            margin-top: 20px;
+            background-color: #463DEE;
+            color: #ffffff !important;
+            text-decoration: none;
+            font-size: 16px;
+            border-radius: 5px;
+            text-align: center;
+            width: auto;
+            max-width: 250px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+            .button:hover {
+                background-color: #3a31b3;
+            }
+
+        .logo {
+            display: block;
+            margin: 0 auto;
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="cid:logo" alt="Logo" class="logo" />
+        <h2>Bonjour {{FirstName}} {{LastName}},</h2>
+        <p>Bienvenue sur SmartMeal ! Votre restaurant <strong>{{RestaurantName}}</strong> est disponible sur Smart Meal !</p>
+        <p>Nous sommes heureux de vous annoncer que votre restaurant est prêt à être utilisé. Vous pouvez maintenant accéder à l'application en cliquant sur le bouton ci-dessous :</p>
+        <p>Scannez le QR code ci-dessous et gardez-le précieusement, car il permet à vos clients d'accéder directement au menu de votre restaurant :</p>
+        <img src="cid:qrCode" alt="QR Code" style="display: block; margin: 0 auto; width: 150px; height: 150px;" />
+        <p>Si vous avez des questions, n'hésitez pas à nous contacter.</p>
+        <p>Cordialement,<br>L'équipe SmartMeal</p>
+    </div>
+</body>
+</html>
