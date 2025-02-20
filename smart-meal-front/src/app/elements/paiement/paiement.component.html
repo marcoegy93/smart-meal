@@ -1,0 +1,95 @@
+<div class="payment-container">
+  <ng-container *ngIf="!isAccountCreate">
+    <button class="terminal-payment-button" (click)="onTerminalPayment()">
+      Payer au comptoir
+    </button>
+
+    <div class="payment-separator">
+      <span>ou</span>
+    </div>
+  </ng-container>
+
+  <div class="payment-methods">
+    <div 
+      class="payment-method" 
+      [class.active]="selectedMethod === 'card'"
+      (click)="selectMethod('card')">
+      <i class="far fa-credit-card"></i>
+      <span>Carte bancaire</span>
+    </div>
+    <div 
+      class="payment-method" 
+      [class.active]="selectedMethod === 'paypal'"
+      (click)="selectMethod('paypal')">
+      <i class="fab fa-paypal"></i>
+      <span>PayPal</span>
+    </div>
+    <div 
+      class="payment-method" 
+      [class.active]="selectedMethod === 'googlepay'"
+      (click)="selectMethod('googlepay')">
+      <i class="fab fa-google"></i>
+      <span>Google Pay</span>
+    </div>
+    <div 
+      class="payment-method" 
+      [class.active]="selectedMethod === 'applepay'"
+      (click)="selectMethod('applepay')">
+      <i class="fab fa-apple"></i>
+      <span>Apple Pay</span>
+    </div>
+  </div>
+
+  <!-- Formulaire Stripe -->
+  <div *ngIf="selectedMethod === 'card'" class="stripe-form">
+    <div id="card-element"></div>
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    <button 
+      (click)="payWithCard()" 
+      class="button pay-button" 
+      [disabled]="isProcessing">
+      <span *ngIf="!isProcessing">
+        Payer {{ formatNumberWithSpaces(transactionTotal) }} €
+      </span>
+      <div *ngIf="isProcessing" class="loader"></div>
+    </button>
+  </div>
+  
+
+  <!-- Bouton PayPal avec référence template -->
+  <div *ngIf="selectedMethod === 'paypal'" class="paypal-container">
+    <div #paypalButtonContainer></div>
+  </div>
+
+  <!-- Bouton Google Pay / Apple Pay -->
+  <div *ngIf="selectedMethod === 'googlepay' && isGooglePayAvailable" class="payment-request-container">
+    <div id="payment-request-button"></div>
+  </div>
+  <div *ngIf="selectedMethod === 'googlepay' && !isGooglePayAvailable" class="payment-method-unavailable" style="text-align: center;">
+    Google Pay n'est pas disponible sur cet appareil
+  </div>
+
+  <!-- Apple Pay -->
+  <div *ngIf="selectedMethod === 'applepay'" class="payment-request-container">
+    <div *ngIf="isApplePayAvailable" id="apple-pay-button"></div>
+    <div *ngIf="!isApplePayAvailable" class="payment-method-unavailable">
+      <p style="text-align: center;">
+        Apple Pay n'est pas disponible sur cet appareil.<br>
+        <small>Vérifiez que vous utilisez Safari et que Apple Pay est configuré.</small>
+      </p>
+    </div>
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+  </div>
+  <button *ngIf="!isAccountCreate" (click)="onCancelPayment()" class="button cancel-button">
+    Annuler
+  </button>
+</div>
+
+
+<div *ngIf="paymentSuccess" class="popup">
+  <div class="popup-content">
+    <div #successAnimation class="animation-container"></div>
+    <h2>Paiement réussi !</h2>
+  </div>
+</div>
+<div *ngIf="paymentSuccess" id="card-element"></div>

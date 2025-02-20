@@ -1,0 +1,166 @@
+.inner-input {
+  box-sizing: border-box;
+  position: relative;
+  padding-bottom: 20px;
+
+  .input-multiple {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+
+    * {
+      width: 49%;
+    }
+  }
+
+  .input-multiple,
+  .input {
+    margin-bottom: 15px;
+  }
+
+  .part {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    .input {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+
+      * {
+        //margin-right: 10px;
+      }
+    }
+
+    h2 {
+      font-size: 20px;
+      margin-bottom: 5px;
+      color: #000000;
+      font-weight: 800;
+    }
+  }
+}
+
+.upload-box {
+  border: 3px dashed #0B1320;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  height: 120px;
+  width: 120px;
+  overflow: hidden;
+
+  .text-data {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .preview {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+
+    h3 {
+      font-family: "League Spartan";
+      font-size: 2em;
+    }
+  }
+
+  h4 {
+    font-family: Poppins;
+    font-weight: 700;
+    font-size: 0.8em;
+    color: #0B1320;
+    text-align: center;
+  }
+
+  p {
+    font-family: Poppins;
+    font-weight: 300;
+    font-size: 0.5em;
+    text-align: center;
+  }
+
+  .icon {
+    font-size: 2em;
+  }
+}
+
+// Ajouter le style pour les steps
+.process-wrap {
+  margin-bottom: 30px;
+
+  .process-main {
+    display: flex;
+    justify-content: center;
+    position: relative;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 20px;
+      left: 25%;
+      right: 25%;
+      height: 2px;
+      background: #ddd;
+      z-index: 0;
+    }
+
+    .col-6 {
+      flex: 0 0 50%;
+      text-align: center;
+    }
+  }
+}
+
+.process-step-cont {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.process-step {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  position: relative;
+  z-index: 1;
+
+  &.focus {
+    border-color: rgb(255, 59, 48);
+    background: rgb(255, 59, 48);
+  }
+}
+
+.process-label {
+  font-size: 14px;
+  color: #666;
+
+  &.focus-label {
+    color: rgb(255, 59, 48);
+    font-weight: bold;
+  }
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+}

@@ -1,0 +1,86 @@
+<div class="preview-container">
+  <div class="upload-section">
+    <div class="upload-box" (click)="openBoxForChooseFile(recto)">
+      <input #recto hidden type="file" accept="image/jpeg, image/png, image/jpg, application/pdf"
+        (change)="onFileSelected($event)" />
+
+      <!-- Check if a file is selected -->
+      <ng-container *ngIf="selectedFilePreview; else uploadPrompt">
+        <div class="image-frame">
+          <img [src]="selectedFilePreview" alt="Image à sélectionner" class="image-preview" />
+
+          <button class="remove-button" (click)="removeSelectedFile($event)">
+            <span class="material-icons">close</span>
+          </button>
+        </div>
+      </ng-container>
+
+      <!-- Default upload prompt -->
+      <ng-template #uploadPrompt>
+        <div class="text-data">
+          <span class="material-symbols-outlined icon">download</span>
+          <h4>Photo</h4>
+          <p>Télécharger depuis votre appareil</p>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+
+  <!-- Preview Cards Section -->
+  <!-- <div class="preview-cards" *ngIf="selectedFilePreview">
+     <div class="preview-card">
+      <h4>Card Component Preview</h4>
+      <app-card [title]="mockCardData.title" [description]="mockCardData.description"
+        [illustration]="selectedFilePreview">
+      </app-card>
+    </div>
+
+    <div class="preview-card">
+      <h4>Item Component Preview</h4>
+      <button class="remove-button" (click)="removeSelectedFile($event)">
+            <span class="material-icons">close</span>
+          </button>
+      <app-item [item]="mockItemData">
+      </app-item>
+    </div>
+  </div> -->
+</div>
+
+<div class="uploader-container">
+  <!-- File Input -->
+  <!-- <label class="file-input-label">
+    <input type="file" [accept]="accept" (change)="onFileSelected($event)" class="file-input">
+    <span class="upload-button">
+      <span class="material-symbols-outlined">upload</span>
+      Remplacer image
+    </span>
+  </label> -->
+
+  <!-- Cropper Modal -->
+  <div class="cropper-modal" *ngIf="showCropper">
+    <div class="cropper-content">
+      <div class="cropper-header">
+        <h3>Crop Image</h3>
+        <button class="close-btn" (click)="closeCropper()">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <div class="cropper-body">
+        <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="aspectRatio"
+          format="png" [transform]="transform" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded($event)"
+          (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()">
+        </image-cropper>
+        <div class="zoom-controls">
+          <button (click)="zoomIn()">Zoom avant</button>
+          <button (click)="zoomOut()">Zoom arrière</button>
+        </div>
+      </div>
+
+      <div class="cropper-footer">
+        <button class="cancel-btn" (click)="closeCropper()">Annuler</button>
+        <button class="confirm-btn" (click)="confirmCrop()">Confirmer</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,57 @@
+<div class="order-card">
+  <div class="order-header">
+    <div class="order-header-main">
+      <div class="order-id">
+        <div class="order-title-row">
+          <h3>Commande #{{ order.orderId }}</h3>
+          <div class="status-badge" [ngClass]="getStatusClass()">
+            {{ getStatusLabel() }}
+          </div>
+        </div>
+        <span class="order-date">{{ formatDate(order?.orderDate) }}</span>
+      </div>
+    </div>
+    
+    <div class="order-meta" *ngIf="order.status === 'IN_PROGRESS' || order.status === 'READY'">
+      <div class="meta-item">
+        <span class="material-symbols-outlined">schedule</span>
+        <div class="meta-content">
+          <label>Temps d'attente</label>
+          <span>{{ getPreparationTime(order) }}</span>
+        </div>
+      </div>
+      <div class="meta-item">
+        <span class="material-symbols-outlined">person</span>
+        <div class="meta-content">
+          <label>Position</label>
+          <span>#{{ getWaitingPosition(order) }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="order-items">
+    <div *ngFor="let item of order.chosenItems" class="item-row" (click)="viewItemDetail(item)">
+      <img class="item-image" [src]="item.illustration" [alt]="item.name" />
+      <div class="item-info">
+        <h4>{{ item.name }}</h4>
+        <p class="item-details">{{ getChosenItems(item?.additionalDetails || []) }}</p>
+        <div class="item-quantity">{{ item.quantity }}x</div>
+      </div>
+      <div class="item-price">{{ item.price }}€</div>
+    </div>
+  </div>
+
+  <div class="order-footer">
+    <div class="total-price">
+      <label>Total</label>
+      <span>{{ getTotalPrice() }}€</span>
+    </div>
+  </div>
+</div>
+
+<app-ordered-item-details
+  [item]="selectedItem"
+  [isVisible]="showItemDetails"
+  (closeModal)="showItemDetails = false">
+</app-ordered-item-details>

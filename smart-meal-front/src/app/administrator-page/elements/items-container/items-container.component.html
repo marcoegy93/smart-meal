@@ -1,0 +1,73 @@
+<section>
+  <div class="header">
+    <div class="left">
+      <h4>Mes produits</h4>
+      @if (isOnMainPage) {
+        <p class="description">Retrouvez ici tous vos produits que vous avez configuré, vous pouvez en rajouter et en modifier</p>
+      }
+    </div>
+
+    <p class="add" (click)="addItem()">Ajouter un produit</p>
+  </div>
+  @if (isOnMainPage) {
+    <div class="search-bar">
+      <app-input type="input" 
+                 subject="Recherche" 
+                 icon="search"
+                 placeholder="Menu burger"
+                 (input)="onSearch($event)"></app-input>
+    </div>
+  }
+  <div class="categories">
+    <div class="categories-scroll">
+      <div class="category-item" 
+           *ngFor="let category of categories; let i = index"
+           [class.active]="isCategorySelected(category)"
+           (click)="toggleCategory(category)">
+        <h4>{{ category }}</h4>
+      </div>
+    </div>
+  </div>
+
+  <div class="items">
+    <owl-carousel-o [options]="customOptions" *ngIf="filteredItems.length > 0">
+      <ng-container *ngFor="let item of filteredItems; let i = index">
+        <ng-template carouselSlide [id]="item.itemId || ''">
+          <div class="banner-slide">
+            <app-card type="ITEM" 
+                     [name]="'Burger'" 
+                     class="card" 
+                     [item]="item" 
+                     (cardClicked)="seeOrUpdateItem($event)"
+                     (deleteItem)="onDeleteItem($event)">
+            </app-card>
+          </div>
+        </ng-template>
+      </ng-container>
+    </owl-carousel-o>
+    <div class="empty-state" *ngIf="filteredItems.length === 0">
+      <p>Aucun produit n'a encore été ajouté</p>
+      <p class="hint">Cliquez sur le bouton "Ajouter un produit" pour commencer</p>
+    </div>
+  </div>
+</section>
+
+@if (displayedItemsForm) {
+  <div class="item-form">
+    <div class="container">
+      <div class="close-section" (click)="close()">
+        <app-google-icon name="close" size="20"></app-google-icon>
+      </div>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+}
+
+<app-confirmation-modal
+  [isVisible]="showDeleteConfirmation"
+  title="Confirmer la suppression"
+  message="Êtes-vous sûr de vouloir supprimer cet article ? Cette action est irréversible."
+  (confirm)="confirmDelete()"
+  (cancel)="cancelDelete()">
+</app-confirmation-modal>
+

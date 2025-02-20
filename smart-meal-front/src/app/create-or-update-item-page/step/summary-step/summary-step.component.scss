@@ -1,0 +1,144 @@
+.summary-container {
+  padding: 20px;
+  
+  .header {
+    margin-bottom: 30px;
+    
+    h2 {
+      font-size: 24px;
+      color: #333;
+      margin: 0 0 8px 0;
+    }
+    
+    .subtitle {
+      color: #666;
+      margin: 0;
+    }
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .summary-section {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
+
+    h3 {
+      color: #333;
+      font-size: 18px;
+      margin: 0 0 20px 0;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #f0f0f0;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+
+      .info-item {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+
+        .label {
+          font-size: 14px;
+          color: #666;
+        }
+
+        .value {
+          font-size: 16px;
+          font-weight: 500;
+          color: #333;
+        }
+      }
+    }
+
+    .description {
+      color: #444;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .sections-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+
+      .section-card {
+        background: #f8f8f8;
+        border-radius: 10px;
+        padding: 15px;
+        
+        .section-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 10px;
+
+          h4 {
+            margin: 0;
+            font-size: 16px;
+            color: #333;
+          }
+
+          .type-badge {
+            background: rgb(255, 59, 48);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+          }
+        }
+
+        .section-details {
+          display: flex;
+          justify-content: space-between;
+          font-size: 13px;
+          color: #666;
+          margin-bottom: 15px;
+        }
+
+        .section-items {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px;
+
+          .item-chip {
+            background: white;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            .price {
+              color: rgb(255, 59, 48);
+              font-weight: 500;
+            }
+
+            .item-illustration {
+              width: 30px;
+              height: 30px;
+              border-radius: 50%;
+              object-fit: cover;
+              margin-right: 8px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .loading {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+  }
+}

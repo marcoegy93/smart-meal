@@ -1,0 +1,7 @@
+<div class="section" [id]="categoryName" #sectionElement>
+  <h1 class="section-title">{{ categoryName }}</h1>
+  <div class="item-cards">
+    <app-item *ngFor="let item of items" [item]="item" [restaurantId]="restaurantId" [tableNumber]="tableNumber"
+      [addToOrder]="addToOrder"></app-item>
+  </div>
+</div>

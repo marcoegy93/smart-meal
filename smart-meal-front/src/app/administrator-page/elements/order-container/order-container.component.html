@@ -1,0 +1,78 @@
+<section>
+  <div class="header">
+    <h4>Mes commandes</h4>
+  </div>
+  <div class="categories">
+    <div class="category-item all"
+         [class.active]="!selectedStatus"
+         (click)="filterByStatus(undefined)">
+      <h4>Toutes</h4>
+    </div>
+
+    <div class="category-item in-progress" 
+         [class.active]="selectedStatus === OrderStatus.IN_PROGRESS"
+         (click)="filterByStatus(OrderStatus.IN_PROGRESS)">
+      <h4>En cours</h4>
+    </div>
+
+    <div class="category-item ready"
+         [class.active]="selectedStatus === OrderStatus.READY"
+         (click)="filterByStatus(OrderStatus.READY)">
+      <h4>Prêt</h4>
+    </div>
+
+    <div class="category-item to-pay"
+         [class.active]="selectedStatus === OrderStatus.TO_PAY"
+         (click)="filterByStatus(OrderStatus.TO_PAY)">
+      <h4>À payer</h4>
+    </div>
+
+    <div class="category-item done"
+         [class.active]="selectedStatus === OrderStatus.DONE"
+         (click)="filterByStatus(OrderStatus.DONE)">
+      <h4>Terminé</h4>
+    </div>
+
+    <div class="category-item cancelled"
+         [class.active]="selectedStatus === OrderStatus.CANCELLED"
+         (click)="filterByStatus(OrderStatus.CANCELLED)">
+      <h4>Annulé</h4>
+    </div>
+  </div>
+  <div class="items">
+    <owl-carousel-o [options]="customOptions" *ngIf="filteredOrders.length > 0">
+      <ng-container *ngFor="let order of filteredOrders">
+        <ng-template carouselSlide [id]="order.orderId?.toString() || ''">
+          <div class="banner-slide">
+            <div class="order-card" 
+                 [ngClass]="getStatusClass(order.status)"
+                 (click)="openOrderDetails(order)">
+              <div class="nOrder">
+                <h3>#{{ order.orderId }}</h3>
+              </div>
+              <div class="content">
+                <div class="order-contact">
+                  <h4>{{ order.username }}</h4>
+                </div>
+                <div class="order-data">
+                  <span class="material-symbols-outlined">skillet</span>
+                  <p>{{ getItemsText(order.chosenItems?.length) }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </ng-container>
+    </owl-carousel-o>
+    <div class="empty-state" *ngIf="filteredOrders.length === 0">
+      <p>{{ getEmptyStateText() }}</p>
+    </div>
+  </div>
+</section>
+
+<app-order-details 
+  [order]="selectedOrder" 
+  [isVisible]="showOrderDetails"
+  (closeModal)="showOrderDetails = false"
+  (statusChanged)="onStatusChanged()">
+</app-order-details>

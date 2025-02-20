@@ -1,0 +1,21 @@
+<div class="customer-payment">
+  <h1>Payer votre commande</h1>
+  <paiement
+    *ngIf="orderData && orderData.price"
+    [orderData]="orderData"
+    [transactionTotal]="orderData.price"
+    [onPaymentSuccess]="onPaymentSuccess"
+    [onCancelPayment]="onCancelPayment"
+    [onTerminalPayment]="payAtTerminal">
+  </paiement>
+</div>
+
+<!-- Modal pour le paiement au terminal -->
+<div *ngIf="showTerminalModal" class="modal">
+  <div class="modal-content">
+    <span class="close" (click)="closeTerminalModal()">&times;</span>
+    <h2>Paiement au comptoir</h2>
+    <p>Veuillez vous diriger vers le comptoir pour effectuer votre paiement.</p>
+    <button class="button ok-button" (click)="closeTerminalModal()">OK</button>
+  </div>
+</div>

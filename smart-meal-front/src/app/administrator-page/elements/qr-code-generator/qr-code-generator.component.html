@@ -1,0 +1,55 @@
+<div class="container">
+    <!-- Section QR Code Google -->
+    <div class="google-section">
+      <h2>QR Code globale</h2>
+      <div class="qr-container">
+        <div class="qr-wrapper" id="google-qr">
+          <qrcode 
+            [qrdata]="smartMealUrl"
+            [width]="200"
+            [errorCorrectionLevel]="'M'"
+          ></qrcode>
+          <img src="assets/img/logo.png" class="table-icon">
+          <button class="download-btn" (click)="downloadQR('google-qr', 'google-qr-code')">
+            Télécharger
+          </button>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Section Générateur QR Codes Tables -->
+    <div class="tables-section">
+      <h2>Créer mes QR Codes pour mes tables</h2>
+      <div class="input-group">
+        <label for="tables">Nombre de tables :</label>
+        <input 
+          type="number" 
+          id="tables"
+          [(ngModel)]="numberOfTables" 
+          min="0"
+          max="50"
+        >
+        <button (click)="generateTables()" class="generate-btn">
+          Créer
+        </button>
+      </div>
+  
+      <!-- Affichage des QR Codes -->
+      <div class="qr-grid" *ngIf="tables.length > 0">
+        <div class="qr-item" *ngFor="let table of tables">
+          <h3>Table {{table}}</h3>
+          <div class="qr-wrapper" [id]="'table-qr-' + table">
+            <qrcode 
+              [qrdata]="smartMealUrl + '&' + 'tableNumber='+ table "
+              [width]="150"
+              [errorCorrectionLevel]="'M'"
+            ></qrcode>
+            <img src="assets/img/logo.png" alt="Table Icon" class="table-icon">
+            <button class="download-btn" (click)="downloadQR('table-qr-' + table, 'table-' + table)">
+              Télécharger
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,83 @@
+<div class="orders-view-page">
+
+  <!-- Header -->
+  <div class="header">
+    <img class="search-icon" (click)="navigateBack()" src="assets/img/client/back-navigation.svg" />
+    <h2 class="title">Mes commandes</h2>
+    <!-- exist to properly center H2 -->
+    <img class="search-icon-hidden" (click)="clearOrder()" src="assets/img/client/trash-can.svg" />
+  </div>
+
+  <app-loading *ngIf="isLoading"></app-loading>
+  <app-error-page *ngIf="errorMessage" [errorMessage]="errorMessage"></app-error-page>
+
+  <ng-container *ngIf="!isLoading && !errorMessage">
+
+    <!-- Pickup Order View -->
+    <ng-container *ngIf="orderType === OrderTypeString.EMPORTER">
+      <div *ngIf="!orderId && !singleOrder" class="order-input-container">
+        <h2>Voici votre numéro de commande</h2>
+        <p class="description">Entrez votre code de commande ci-dessous.</p>
+
+        <div class="order-steps">
+          <input *ngFor="let i of [0,1,2,3,4]" type="text" maxlength="1" pattern="[0-9]" class="order-input"
+            [(ngModel)]="editedOrderId[i]" #inputElement (input)="onInput(i, inputElement)"
+            (keydown)="onKeyDown($event, i)" [class.active]="i === currentIndex" placeholder="0" />
+        </div>
+
+        <div *ngIf="orderNotFound" class="error-message">
+          <p>Cette commande n'existe pas. Veuillez vérifier le numéro.</p>
+        </div>
+
+        <button class="primary-btn" (click)="submitOrderId()">OK</button>
+      </div>
+      <!-- Single order view -->
+      <ng-container *ngIf="singleOrder">
+        <div class="item-cards">
+          <div class="info-label">Commande en cours</div>
+          <app-ordered-item [restaurantId]="restaurantId" [addToOrder]="addToOrder" [order]="singleOrder">
+          </app-ordered-item>
+        </div>
+      </ng-container>
+    </ng-container>
+
+
+
+
+    <!-- Dine-In Orders View -->
+    <ng-container *ngIf="orderType === OrderTypeString.SUR_PLACE">
+      <div class="single-order-view">
+        <div class="item-cards">
+          <div class="info-label">Commandes en cours</div>
+          <ng-container *ngIf="getIncompleteOrders().length > 0; else noCurrentOrders">
+            <app-ordered-item *ngFor="let orderedItem of getIncompleteOrders()" [restaurantId]="restaurantId"
+              [addToOrder]="addToOrder" [order]="orderedItem">
+            </app-ordered-item>
+          </ng-container>
+          <ng-template #noCurrentOrders>
+            <div class="empty-state">
+              <h3>Aucune commande en cours</h3>
+              <p>Vos commandes en préparation apparaîtront ici</p>
+            </div>
+          </ng-template>
+        </div>
+        <div class="item-cards">
+          <div class="info-label">Historique des commandes</div>
+          <ng-container *ngIf="getCompleteOrders().length > 0; else noOrderHistory">
+            <app-ordered-item *ngFor="let orderedItem of getCompleteOrders()" [restaurantId]="restaurantId"
+              [addToOrder]="addToOrder" [order]="orderedItem">
+            </app-ordered-item>
+          </ng-container>
+          <ng-template #noOrderHistory>
+            <div class="empty-state">
+              <h3>Aucun historique</h3>
+              <p>Vos commandes terminées apparaîtront ici</p>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </ng-container>
+
+  </ng-container> <!-- FERMETURE CORRECTE DE `!isLoading && !errorMessage` -->
+
+</div>

@@ -1,0 +1,70 @@
+<div class="criteria-form">
+  <form [formGroup]="criteriaForm" (ngSubmit)="onSubmit()">
+    <!-- Categories Multi-Select -->
+    <div class="form-group">
+      <label for="categories">Catégories</label>
+      <mat-form-field appearance="outline">
+        <mat-label>Catégories</mat-label>
+        <mat-select id="categories" formControlName="categories" multiple>
+          <mat-option *ngFor="let category of categories" [value]="category">
+            {{ category }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- Ingredients Multi-Select -->
+    <div class="form-group">
+      <label for="ingredients">Ingrédients</label>
+      <mat-form-field appearance="outline">
+        <mat-label>Ingrédients</mat-label>
+        <mat-select id="ingredients" formControlName="ingredients" multiple>
+          <mat-option *ngFor="let ingredient of ingredients" [value]="ingredient">
+            {{ ingredient }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- Price Range -->
+    <div class="form-group">
+      <label for="priceRange">Prix</label>
+      <div class="price-range">
+        <input id="priceMin" type="number" placeholder="Min" formControlName="priceMin" />
+        <input id="priceMax" type="number" placeholder="Max" formControlName="priceMax" />
+      </div>
+    </div>
+
+    <!-- Duration -->
+    <div class="form-group">
+      <label for="duration">Durée</label>
+      <mat-form-field appearance="outline">
+        <mat-label>Durée</mat-label>
+        <mat-select id="duration" formControlName="duration">
+          <mat-option *ngFor="let duration of durations" [value]="duration">
+            {{ durationLabels[duration] }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+
+  <div class="secondary-btn-group">
+      @if(onCancel) {
+      <button class="secondary-btn" mat-raised-button color="warn" (click)="onCancel()">
+        Fermer
+      </button>
+    }
+
+
+    <button class="secondary-btn" (click)="onReset()" mat-raised-button color="primary" >
+      Réinitialiser
+    </button>
+  </div>
+
+
+    <button class="primary-btn" type="submit" mat-raised-button color="primary" [disabled]="criteriaForm.invalid">
+      Rechercher
+    </button>
+  </form>
+</div>

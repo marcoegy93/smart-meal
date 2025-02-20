@@ -1,0 +1,50 @@
+<div class="revenue-dashboard">
+  <div class="left-panel">
+    <div class="inputs">
+      <div class="input">
+        <app-input type="date" for="text" subject="Depuis le" icon="category" [(ngModel)]="dateFrom"
+                   placeholder="Depuis le..." (ngModelChange)="onDateChange($event)"></app-input>
+      </div>
+    </div>
+
+    <div class="header">
+      <h4>Mes revenus</h4>
+    </div>
+
+    <div class="content-revenue">
+      <div class="revenue">
+        <div class="container">
+          <h3>{{totalPrice}}€</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="right-panel">
+    <div class="header">
+      <h4>Évolution des revenus</h4>
+    </div>
+
+    <div class="chart-container">
+      @if (hasData) {
+        <ngx-charts-area-chart
+          [view]="[width, 380]"
+          [results]="chartData"
+          [xAxis]="true"
+          [yAxis]="true"
+          [autoScale]="true"
+          [timeline]="true"
+          [scheme]="colorScheme"
+          [showXAxisLabel]="false"
+          [showYAxisLabel]="false">
+        </ngx-charts-area-chart>
+      } @else {
+        <div class="no-data-message">
+          <span class="material-symbols-outlined">trending_up</span>
+          <p>Aucune vente n'a encore été enregistrée</p>
+          <p class="subtitle">Les données apparaîtront ici dès votre première vente</p>
+        </div>
+      }
+    </div>
+  </div>
+</div>

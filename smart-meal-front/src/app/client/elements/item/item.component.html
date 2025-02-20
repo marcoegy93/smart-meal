@@ -1,0 +1,15 @@
+<div class="item-card">
+  <div class="inner-item-card" (click)="viewItemDetail()">
+    <img class="preview-img" src="{{ item.illustration }}" alt="{{ item.name }}" />
+    <div class="item-details">
+      <h3 class="item-title">{{ item.name }}</h3>
+      <p class="item-description">{{ item.ingredients?.join(', ') }}</p>
+      <p class="item-price">{{ item.price }}€</p>
+    </div>
+  </div>
+
+  <div>
+    <img class="add-icon" src="assets/img/client/plus-button.svg" 
+    (click)="item.type === 'COMPOUND' ? viewItemDetail() : onAddToOrder()" />
+  </div>
+</div>

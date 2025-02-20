@@ -1,0 +1,14 @@
+<header>
+  <div class="restaurant-name">
+    <h3>{{ restaurantName || 'Nom du restaurant' }}</h3>
+    <p>{{ restaurantAddress || 'Adresse non définie' }}</p>
+  </div>
+
+  <div class="restaurant-admin" (click)="goToSettings()">
+    <div 
+      class="icon" 
+      [style.backgroundImage]="'url(' + (userIllustration || '../../../../assets/img/profil.jpg') + ')'"
+    ></div>
+    <h3>{{ userName || 'Utilisateur' }}</h3>
+  </div>
+</header>

@@ -1,0 +1,52 @@
+<div class="modal-overlay" *ngIf="isVisible" (click)="onClose()">
+  <div class="modal-content" (click)="stopPropagation($event)">
+    <div class="modal-header">
+      <div class="order-info">
+        <h2>Commande #{{ order?.orderId }}</h2>
+        <span class="status-badge" [ngClass]="getStatusClass(order?.status!)">
+          {{ order?.status }}
+        </span>
+      </div>
+      <button class="close-button" (click)="onClose()">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <div class="customer-info">
+        <h3>Informations client</h3>
+        <p><strong>Nom :</strong> {{ order?.username }}</p>
+      </div>
+
+      <div class="order-items">
+        <h3>Articles commandés</h3>
+        <div class="items-list">
+          <div class="item" *ngFor="let item of order?.chosenItems">
+            <div class="item-info">
+              <span class="item-name">{{ item.name }}</span>
+              <span class="item-price">{{ item.price }}€</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="order-total">
+        <h3>Total</h3>
+        <p class="total-price">{{ getTotalPrice() }}€</p>
+      </div>
+
+      <div class="order-actions">
+        <div class="button-group">
+          <app-button *ngIf="order?.status === OrderStatus.TO_PAY" text="Accepter la commande" color="#eab308" (click)="changeOrderStatus(OrderStatus.READY)"></app-button>
+          <app-button *ngIf="order?.status === OrderStatus.TO_PAY" text="Annuler la commande" color="#ef4444" (click)="changeOrderStatus(OrderStatus.CANCELLED)"></app-button>
+        </div>
+        <div class="button-group">
+          <app-button *ngIf="order?.status === OrderStatus.READY" text="Commencer la commande" color="#22c55e" (click)="changeOrderStatus(OrderStatus.IN_PROGRESS)"></app-button>
+        </div>
+        <div class="button-group">
+          <app-button *ngIf="order?.status === OrderStatus.IN_PROGRESS" text="Terminer la commande" color="#14b8a6" (click)="changeOrderStatus(OrderStatus.DONE)"></app-button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

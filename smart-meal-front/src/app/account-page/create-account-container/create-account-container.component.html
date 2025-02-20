@@ -1,0 +1,307 @@
+<!-- Ajout de la barre de progression -->
+<div class="process-wrap">
+  <div class="process-main">
+    <div class="col-4">
+      <div class="process-step-cont" (click)="goTo('restaurant')">
+        <div [class]="currentStep === 'restaurant' ? 'process-step step-1 focus' : 'process-step step-1'"></div>
+        <span [class]="currentStep === 'restaurant' ? 'process-label focus-label' : 'process-label'">Restaurant</span>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="process-step-cont" (click)="goTo('admin')">
+        <div [class]="currentStep === 'admin' ? 'process-step step-2 focus' : 'process-step step-2'"></div>
+        <span [class]="currentStep === 'admin' ? 'process-label focus-label' : 'process-label'">Admin</span>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="process-step-cont" (click)="goTo('summary')">
+        <div [class]="currentStep === 'summary' ? 'process-step step-3 focus' : 'process-step step-3'"></div>
+        <span [class]="currentStep === 'summary' ? 'process-label focus-label' : 'process-label'">Recap</span>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="process-step-cont" (click)="goTo('contract')">
+        <div [class]="currentStep === 'contract' ? 'process-step step-4 focus' : 'process-step step-4'"></div>
+        <span [class]="currentStep === 'contract' ? 'process-label focus-label' : 'process-label'">Contrat</span>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="process-step-cont" (click)="goTo('payment')">
+        <div [class]="currentStep === 'payment' ? 'process-step step-5 focus' : 'process-step step-5'"></div>
+        <span [class]="currentStep === 'payment' ? 'process-label focus-label' : 'process-label'">Paiement</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<aside class="inner-input">
+  <div class="filter"></div>
+  <form [formGroup]="restaurantForm">
+    <!-- Step 1: Restaurant Info -->
+    @if (currentStep === 'restaurant') {
+      <div class="part">
+        <h2>Les informations sur votre restaurant</h2>
+        <div class="input">
+          <app-input type="input" subject="Nom du restaurant" icon="restaurant"
+                     placeholder="Macdonald's" formControlName="name"></app-input>
+        </div>
+        <div class="input">
+          <app-input type="input" subject="Numéro + Rue" icon="location_on"
+                     placeholder="8 Rue dufont lardin" formControlName="street"></app-input>
+        </div>
+        <div class="input-multiple">
+          <app-input
+            type="input"
+            subject="Code postal"
+            icon="pin_drop"
+            placeholder="93360"
+            formControlName="postalCode">
+          </app-input>
+          @if (restaurantForm.get('postalCode')?.errors?.['pattern'] && restaurantForm.get('postalCode')?.touched) {
+            <small class="error-message">Le code postal doit contenir 5 chiffres</small>
+          }
+
+          <app-input
+            type="input"
+            subject="Ville"
+            icon="location_city"
+            placeholder="Neuilly-Plaisance"
+            formControlName="city">
+          </app-input>
+        </div>
+        <div class="input-multiple">
+          <app-input type="input" subject="Siret" icon="business"
+                     placeholder="9867975767988" formControlName="siret"></app-input>
+          <app-input type="input" subject="TVA" icon="request_quote"
+                     placeholder="RC97576uh88" formControlName="tva"></app-input>
+        </div>
+        <app-uploader (fileSelected)="onRestaurantPictureSelected($event)" [aspectRatio]="16/9"></app-uploader>
+      </div>
+    }
+
+    <!-- Step 2: Admin Info -->
+    @if (currentStep === 'admin') {
+      <div class="part">
+        <h2>Les informations sur vous</h2>
+        <div class="input-multiple">
+          <app-input type="input" subject="Nom" icon="person"
+                     placeholder="Marvin" formControlName="lastName"></app-input>
+          <app-input type="input" subject="Prénom" icon="person_outline"
+                     placeholder="Acme" formControlName="firstName"></app-input>
+        </div>
+        <div class="input-multiple">
+          <app-input type="input" subject="Email" icon="email"
+                     placeholder="marvin.acme@gmail.com" formControlName="email"></app-input>
+          <app-input type="input" subject="Téléphone" icon="phone"
+                     placeholder="0156467876" formControlName="phoneNumber"></app-input>
+        </div>
+        <div class="input-multiple">
+          <app-input type="password" for="password" subject="Mot de passe" icon="lock"
+                     placeholder="Entrez votre mot de passe" formControlName="password"></app-input>
+          <app-input type="password" for="confirmPassword" subject="Confirmer votre mot de passe" icon="lock_outline"
+                     placeholder="Confirmez votre mot de passe" formControlName="confirmPassword"></app-input>
+        </div>
+        <app-uploader (fileSelected)="onAdminPictureSelected($event)"></app-uploader>
+      </div>
+    }
+
+    <!-- Step 3: Summary -->
+    @if (currentStep === 'summary') {
+      <div class="part">
+        <h2>Récapitulatif de votre inscription</h2>
+
+        <div class="summary-section">
+          <h3>Restaurant</h3>
+          <div class="info-grid">
+            <div class="info-item">
+              <span class="label">Nom</span>
+              <span class="value">{{restaurantForm.get('name')?.value}}</span>
+            </div>
+            <div class="info-item">
+              <span class="label">Adresse</span>
+              <span class="value">{{getFormattedAddress()}}</span>
+            </div>
+            <div class="info-item">
+              <span class="label">SIRET</span>
+              <span class="value">{{restaurantForm.get('siret')?.value}}</span>
+            </div>
+            <div class="info-item">
+              <span class="label">TVA</span>
+              <span class="value">{{restaurantForm.get('tva')?.value}}</span>
+            </div>
+          </div>
+          @if (selectedRestaurantFile && restaurantImageUrl) {
+            <div class="image-preview">
+              <h4>Photo du restaurant</h4>
+              <img [src]="restaurantImageUrl" alt="Restaurant">
+            </div>
+          }
+        </div>
+
+        <div class="summary-section">
+          <h3>Administrateur</h3>
+          <div class="info-grid">
+            <div class="info-item">
+              <span class="label">Nom complet</span>
+              <span class="value">{{restaurantForm.get('firstName')?.value}} {{restaurantForm.get('lastName')?.value}}</span>
+            </div>
+            <div class="info-item">
+              <span class="label">Email</span>
+              <span class="value">{{restaurantForm.get('email')?.value}}</span>
+            </div>
+            <div class="info-item">
+              <span class="label">Téléphone</span>
+              <span class="value">{{restaurantForm.get('phoneNumber')?.value}}</span>
+            </div>
+          </div>
+          @if (selectedAdminFile && adminImageUrl) {
+            <div class="image-preview">
+              <h4>Photo de l'administrateur</h4>
+              <img [src]="adminImageUrl" alt="Admin">
+            </div>
+          }
+        </div>
+      </div>
+    }
+
+    <!-- Step 4: Contract -->
+    @if (currentStep === 'contract') {
+      <div class="part contract-section">
+        <h2>Contrat de Partenariat SmartMeal</h2>
+
+        <div class="contract-content">
+          <p class="contract-date">Fait le {{getFormattedDate()}}</p>
+
+          <div class="contract-parties">
+            <p><strong>ENTRE LES SOUSSIGNÉS :</strong></p>
+            <p>La société SmartMeal, société par actions simplifiée au capital de X euros,
+               dont le siège social est situé au 30-32 Avenue de la République, 94800 Villejuif,
+               immatriculée au RCS de Paris sous le numéro XXX XXX XXX,
+               représentée par M. Chihab Abdeldjalel,
+               et M. Kamguin Hermann en leur qualités de Présidents,</p>
+            <p>Ci-après dénommée "SmartMeal",</p>
+            <p>D'une part,</p>
+            <p><strong>ET :</strong></p>
+            <p>{{restaurantForm.get('name')?.value}}, représenté(e) par
+               {{restaurantForm.get('firstName')?.value}} {{restaurantForm.get('lastName')?.value}},
+               situé(e) au {{getFormattedAddress()}},
+               SIRET : {{restaurantForm.get('siret')?.value}},
+               TVA : {{restaurantForm.get('tva')?.value}}</p>
+            <p>Ci-après dénommé "le Restaurant Partenaire",</p>
+            <p>D'autre part,</p>
+          </div>
+
+          <div class="contract-sections">
+            <section>
+              <h3>Article 1 - Objet du Contrat</h3>
+              <p>Le présent contrat a pour objet de définir les conditions dans lesquelles le Restaurant Partenaire utilisera la plateforme SmartMeal pour la gestion numérique de son établissement.</p>
+            </section>
+
+            <section>
+              <h3>Article 2 - Services Fournis</h3>
+              <p>SmartMeal s'engage à fournir au Restaurant Partenaire :</p>
+              <ul>
+                <li>Une interface de gestion de menu digitale</li>
+                <li>Un système de commande en ligne</li>
+                <li>Un tableau de bord analytique</li>
+                <li>Un support technique 7j/7</li>
+              </ul>
+            </section>
+
+            <section>
+              <h3>Article 3 - Durée</h3>
+              <p>Le présent contrat est conclu pour une durée initiale de 12 mois à compter de sa signature.</p>
+            </section>
+
+            <section>
+              <h3>Article 4 - Conditions Financières</h3>
+              <p>Le Restaurant Partenaire s'engage à verser :</p>
+              <ul>
+                <li>Frais d'inscription : 30,00 € HT</li>
+                <li>Commission mensuelle : 2% du chiffre d'affaires généré via la plateforme</li>
+              </ul>
+            </section>
+
+            <section>
+              <h3>Article 5 - Obligations des Parties</h3>
+              <p>Le Restaurant Partenaire s'engage à :</p>
+              <ul>
+                <li>Maintenir à jour ses informations sur la plateforme</li>
+                <li>Respecter les normes d'hygiène et de sécurité alimentaire</li>
+                <li>Traiter les commandes dans les délais convenus</li>
+              </ul>
+            </section>
+          </div>
+
+          <div class="contract-signature">
+            <div class="signature-section">
+              <p>Pour SmartMeal :</p>
+              <img src="/assets/img/signature.png" alt="Signature SmartMeal" class="signature-image">
+              <img src="/assets/img/signature-2.png" alt="Signature SmartMeal" class="signature-image">
+              <p>Chihab Abdeldjalel, Kamguin Hermann<br>Présidents</p>
+            </div>
+
+            <div class="signature-section">
+              <p>Pour le Restaurant Partenaire :</p>
+              <div class="signature-container">
+                <p>Je soussigné(e) {{restaurantForm.get('firstName')?.value}} {{restaurantForm.get('lastName')?.value}},
+                   accepte les termes de ce contrat</p>
+
+                <div class="signature-pad-container">
+                  <canvas #signaturePad class="signature-pad"></canvas>
+                  <div class="signature-actions">
+                    <button type="button" class="clear-button" (click)="clearSignature()">Effacer</button>
+                    <button type="button" class="sign-button" (click)="saveSignature()">Signer</button>
+                  </div>
+                </div>
+
+                @if (signatureImageUrl) {
+                  <div class="signature-preview">
+                    <img [src]="signatureImageUrl" alt="Signature du partenaire">
+                  </div>
+                }
+              </div>
+              <p class="signature-date">Date : {{currentDate}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- Step 5: Payment -->
+    @if (currentStep === 'payment') {
+      <div class="part">
+        <h2>Paiement</h2>
+        <p class="payment-info">Frais d'inscription : 30,00 €</p>
+        <paiement
+          [transactionId]="transactionId"
+          [transactionTotal]="30"
+          [onPaymentSuccess]="onPaymentSuccess">
+        </paiement>
+      </div>
+    }
+
+    <br>
+    <div class="buttons">
+      @if (currentStep !== 'restaurant') {
+        <app-button
+          [text]="'Précédent'"
+          [color]="'#666'"
+          (click)="previousStep()">
+        </app-button>
+      }
+
+      @if (currentStep !== 'payment') {
+        <app-button
+          [text]="'Suivant'"
+          [color]="'rgb(255, 59, 48)'"
+          (click)="nextStep()">
+        </app-button>
+      }
+    </div>
+  </form>
+</aside>
+
+<div #contractContent style="display: none;">
+  <!-- Le contenu sera injecté dynamiquement ici -->
+</div>

@@ -1,0 +1,69 @@
+<app-navbar></app-navbar>
+
+<div class="video-section">
+  <video
+    class="video-background"
+    autoplay
+    loop
+    [muted]="'muted'"
+    playsinline
+    preload="auto"
+    webkit-playsinline
+  >
+    <source src="../../assets/home.mp4" type="video/mp4">
+  </video>
+
+  <div class="overlay-content">
+    <div class="content-wrapper">
+      <div class="text-section">
+        <p class="overlay-text">
+          Révolutionnez votre expérience de restauration avec notre plateforme innovante.
+          Découvrez une nouvelle façon de commander, simple, rapide et personnalisée.
+          Créez votre menu sur mesure et commandez directement depuis votre table,
+          sans attente ni complications.
+        </p>
+      </div>
+
+      <div class="steps-section" style="margin-bottom: 35px;">
+        <div class="step">
+          <h3>Installez vous</h3>
+          <span class="material-symbols-outlined">table_restaurant</span>
+        </div>
+
+        <div class="step">
+          <h3>Scannez</h3>
+          <span class="material-symbols-outlined">qr_code</span>
+        </div>
+
+        <div class="step">
+          <h3>Commandez</h3>
+          <span class="material-symbols-outlined">order_approve</span>
+        </div>
+      </div>
+
+      <div class="button-container">
+        <a href="#my-anchor" class="btn btn-secondary">Restaurants partenaires</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bannière existante -->
+<div id="my-anchor" style="margin-top: 30px;"></div>
+
+<!-- Section "Nos restaurants partenaires" -->
+<div class="restaurants-section">
+  <div class="title-banner">
+    <h1 class="title" style="margin-bottom: 20px;">Nos restaurants partenaires</h1>
+    <app-restaurant-search [filterRestaurantByRegex]="filterRestaurants"></app-restaurant-search>
+
+  </div>
+
+  <!-- Liste des restaurants sous forme de cartes -->
+  <div class="restaurants-list">
+    <div *ngFor="let restaurant of filteredRestaurants" class="card-restaurant">
+      <app-card-restaurant [restaurant]="restaurant"></app-card-restaurant>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

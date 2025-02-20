@@ -1,0 +1,18 @@
+@if(error) {
+  <div class="container">
+    <div [class]="error.type==='INFO' ? 'green content' : 'red content'">
+      <div class="error">
+        <div class="title">
+          <app-google-icon name="report" size="25"></app-google-icon>
+        </div>
+        <div class="additional-details">
+          <p>{{error.message}}</p>
+          @for (additionalDetail of error.additionalDetails; track additionalDetail) {
+            <p class="additional-detail">{{additionalDetail}}</p>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+}

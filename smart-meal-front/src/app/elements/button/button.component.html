@@ -1,0 +1,15 @@
+<button [style.background-color]="color" [disabled]="disabled">
+  <ng-container *ngIf="!isLoading">
+    {{text}}
+  </ng-container>
+  
+  <ng-container *ngIf="isLoading">
+    <div class="spinner"></div>
+  </ng-container>
+</button>
+
+<ng-container *ngIf="isLoading">
+  <div class="spinner-overlay">
+    <div class="spinner"></div>
+  </div>
+</ng-container>

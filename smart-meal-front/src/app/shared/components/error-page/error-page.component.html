@@ -1,0 +1,19 @@
+<app-navbar></app-navbar>
+
+<div class="error-container">
+    <div class="error-content">
+        <div class="error-icon">
+            <span class="material-symbols-outlined">error</span>
+        </div>
+        <h1>Oops! Une erreur est survenue</h1>
+        <ng-container *ngIf="errorMessage">
+            <p>{{ errorMessage }}</p>
+        </ng-container>
+        <ng-container *ngIf="!errorMessage">
+            <p>Nous sommes désolés, quelque chose s'est mal passé.</p>
+        </ng-container>
+        <button class="primary-btn" (click)="goHome()">
+            Retourner à l'accueil
+        </button>
+    </div>
+</div>

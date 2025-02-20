@@ -1,0 +1,55 @@
+<header>
+  <nav class="navbar">
+    <div class="content">
+      <div class="logo_div">
+        <a href="/"><img src="assets/img/logo.png" id="logo" alt="logo"></a>
+      </div>
+      <ul class="menu-list">
+        <li *ngIf="!isLoggedIn">
+          <a href="/account/create">
+            <span class="material-symbols-outlined">restaurant</span>
+            <span>Créer mon restaurant</span>
+          </a>
+        </li>
+        <li *ngIf="!isLoggedIn">
+          <a href="/account/login">
+            <span class="material-symbols-outlined">login</span>
+            <span>Login restaurant</span>
+          </a>
+        </li>
+
+        <li *ngIf="isLoggedIn">
+          <a href="/administration/dashboard">
+            <img [src]="userIllustration || '../../../../assets/img/profil.jpg'" class="user-illustration">
+            {{ userName }}
+          </a>
+        </li>
+
+        <li *ngIf="isLoggedIn">
+          <a href="#" (click)="requestDeconnexion()">
+            <span class="material-symbols-outlined">logout</span>
+            <span>Déconnexion</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="/about">
+            <span class="material-symbols-outlined">info</span>
+            <span>À propos</span>
+          </a>
+        </li>
+      </ul>
+      <div class="burger">
+        <span></span>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<app-confirmation-modal
+  [isVisible]="showDeconnexionConfirmation"
+  title="Confirmer la déconnexion"
+  message="Êtes-vous sûr de vouloir vous déconnecter ?"
+  (confirm)="confirmDeconnexion()"
+  (cancel)="cancelDeconnexion()">
+</app-confirmation-modal>

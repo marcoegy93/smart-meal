@@ -1,0 +1,49 @@
+<div class="card-wrapper">
+  <div class="card" (click)="onCardClick()">
+    @if(type == 'ITEM') {
+      <div class="optional-part">
+        <div class="container" [style.background-image]="item?.illustration ? 'url(' + item?.illustration + ')' : 'url(../../../assets/img/test-burger-item.jpg)'">
+        </div>
+      </div>
+    }
+    <div class="main-part"
+         [style.flex-direction]="'column'"
+         [style.align-items]="'flex-start'"
+         [style.padding]="'10px'">
+
+  
+
+      @if(type != 'ITEM') {
+        <app-google-icon name="dataset" size="25" [style.margin-right.px]="5"></app-google-icon>
+      }
+
+      <div class="to-section-data">
+        <h3 class="title">{{ item?.name || section?.name }}</h3>
+        <div class="additional-data">
+          @if(type == 'ITEM') {
+            <div class="duration">
+              <app-google-icon name="schedule" size="15"></app-google-icon>
+              <p class="time">{{ item?.duration }} min</p>
+            </div>
+            <h4 class="price">{{ item?.price }} €</h4>
+          }
+
+          @if (type != "ITEM"){
+            <p class="item-number">{{section?.items?.length}} produit{{section?.items?.length !== 1 ? 's' : ''}}</p>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  @if(type == 'ITEM') {
+    <div class="close-item" (click)="removeItem($event)">
+      <app-google-icon name="close" size="20"></app-google-icon>
+    </div>
+  }
+  @if(type != 'ITEM') {
+    <div class="close-section" (click)="removeSection()">
+      <app-google-icon name="close" size="20"></app-google-icon>
+    </div>
+  }
+</div>

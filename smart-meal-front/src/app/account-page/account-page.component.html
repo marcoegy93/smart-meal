@@ -1,0 +1,31 @@
+<app-navbar></app-navbar>
+<div class="all-container">
+  <section class="illustration">
+    <div class="header">
+      <app-logo size="200"></app-logo>
+    </div>
+    <div class="body">
+      <div class="container">
+        <h1 *ngIf="isLoginPage">Connexion à votre compte</h1>
+        <h1 *ngIf="!isLoginPage">Créer votre restaurant</h1>
+      
+        <p *ngIf="isLoginPage">
+          Accédez à votre compte pour gérer votre restaurant et profiter de tous vos avantages.
+        </p>
+        <p *ngIf="!isLoginPage">
+          C'est ici que l'aventure commence avec SmartMeal : En créant votre compte, bénéficiez d'avantages exclusifs.
+        </p>
+      </div>      
+    </div>
+  </section>
+
+
+  <section class="forms">
+    <aside class="header">
+      <img class="logo" src="assets/img/favicon.png" alt="logo" />
+    </aside>
+    <aside class="form-item">
+      <router-outlet></router-outlet>
+    </aside>
+  </section>
+</div>

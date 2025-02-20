@@ -1,0 +1,41 @@
+header{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  .restaurant-name{
+    h3{
+      letter-spacing: -4px;
+      font-size: 3em;
+    }
+    p{
+      margin-top: -10px;
+      font-size: 0.9em;
+      color: #bdbdbd;
+      font-weight: 300;
+    }
+  }
+  .restaurant-admin {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    padding: 10px;
+    border-radius: 15px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    margin-right: 50px;
+    cursor: pointer;
+
+    h3{
+      font-size: 0.9em;
+      margin-right: 10px;
+    }
+    .icon{
+      margin-right: 15px;
+      width: 30px;
+      height: 30px;
+      border-radius: 10px;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+    }
+  }
+}

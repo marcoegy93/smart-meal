@@ -1,0 +1,142 @@
+.revenue-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  height: 100%;
+  overflow: hidden;
+
+  .left-panel {
+    .header {
+      margin-bottom: 8px;
+      h4 {
+        font-size: 18px;
+        font-weight: 600;
+        color: #1a1a1a;
+        margin: 0;
+      }
+    }
+
+    .content-revenue {
+      .revenue {
+        background: linear-gradient(200grad, #ff5c5c, #630e0e);
+        color: white;
+        border-radius: 12px;
+        padding: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        h3 {
+          font-size: 2.5em;
+          margin: 0;
+        }
+      }
+    }
+
+    .inputs {
+      margin-bottom: 8px;
+      width: 100%;
+      .input {
+        width: 100%;
+      }
+    }
+  }
+
+  .right-panel {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+
+    .header {
+      margin-bottom: 8px;
+      h4 {
+        font-size: 18px;
+        font-weight: 600;
+        color: #1a1a1a;
+        margin: 0;
+      }
+    }
+
+    .chart-container {
+      flex: 1;
+      min-height: 0;
+      background: white;
+      border-radius: 12px;
+      padding: 16px 16px 0 16px;
+      
+      ::ng-deep {
+        ngx-charts-area-chart {
+          width: 100% !important;
+          height: calc(100% + 30px) !important;
+          margin-bottom: -50px !important;
+          
+          .ngx-charts {
+            width: 100% !important;
+            height: 100% !important;
+
+            .timeline {
+              margin-bottom: -50px;
+              transform: translateY(-25px);
+            }
+
+            .chart-legend {
+              display: none;
+            }
+            
+            .x-axis,
+            .y-axis {
+              transform: translateY(-25px);
+            }
+
+            .chart {
+              padding-bottom: 0 !important;
+            }
+
+            .area-chart {
+              overflow: hidden;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.no-data-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  background: #f9fafb;
+  border-radius: 8px;
+  padding: 24px;
+  text-align: center;
+
+  span {
+    font-size: 48px;
+    color: #9ca3af;
+    margin-bottom: 16px;
+  }
+
+  p {
+    margin: 0;
+    color: #4b5563;
+    font-size: 16px;
+    font-weight: 500;
+
+    &.subtitle {
+      color: #6b7280;
+      font-size: 14px;
+      font-weight: normal;
+      margin-top: 8px;
+    }
+  }
+}
+
+.chart-container {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}

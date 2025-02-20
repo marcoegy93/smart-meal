@@ -1,0 +1,15 @@
+@if(!itemIsGood) {
+  <app-spinner></app-spinner>
+}
+<section>
+  <aside class="items">
+    <app-items-container [isOnMainPage]="false" (dataRetrieved)="itemReceived()"></app-items-container>
+    <app-order-container></app-order-container>
+  </aside>
+  <aside class="company">
+    <h2>Mes Chiffres</h2>
+    <div class="revenue-stats">
+      <app-revenue-container></app-revenue-container>
+    </div>
+  </aside>
+</section>

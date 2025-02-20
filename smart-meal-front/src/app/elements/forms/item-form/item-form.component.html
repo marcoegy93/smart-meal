@@ -1,0 +1,69 @@
+<aside class="inner-input" [class.disabled]="!isActive">
+  <div class="filter"></div>
+  <form [formGroup]="itemForm">
+    @if (allowChoosingExistingItem) {
+      <div class="part">
+        <h2>Ajouter un produit existant</h2>
+        <div class="input">
+          <app-input type="select" subject="Choix du produit existant" formControlName="selectedItem"
+                     [selectValues]="itemForSelecting"></app-input>
+        </div>
+      </div>
+    }
+
+    <div class="part">
+      <h2>Créer un produit</h2>
+      <div class="input">
+        @if(allowChoosingExistingItem) {
+          <app-input type="select" subject="Type de produit" formControlName="type"
+                     [selectValues]="[{value: 'SIMPLE', display: 'SIMPLE'}]"></app-input>
+        } @else {
+          <app-input type="select" subject="Type de produit" formControlName="type"
+               [selectValues]="[{value: 'SIMPLE', display: 'SIMPLE'}, {value: 'COMPOUND', display: 'COMPOSÉ'}]"
+               [disabled]="isUpdating()"></app-input>
+        }
+
+      </div>
+      <div class="input">
+        <app-input type="input" subject="Nom du produit" icon="fastfood" formControlName="name"
+                   placeholder="Burger" ></app-input>
+      </div>
+      <div class="input">
+        <app-input type="input" subject="Description du produit" icon="fastfood" formControlName="description"
+                   placeholder="Délicieux burger avec des produits locaux" ></app-input>
+      </div>
+      <div class="input">
+        <app-input type="picker" subject="Mot clés" icon="translate" formControlName="keyword"
+                   [pickerSelectedValues]="keywords" placeholder="Mot clés..."></app-input>
+      </div>
+      <div class="input">
+        <app-input type="picker" subject="Catégories" icon="view_comfy_alt" formControlName="categories"
+                   [pickerSelectedValues]="categories" placeholder="Catégories..."></app-input>
+      </div>
+      <div class="input">
+        <app-input type="picker" subject="Ingrédients" icon="grocery" formControlName="ingredients"
+                   [pickerSelectedValues]="ingredients" placeholder="Ingrédients..."></app-input>
+      </div>     
+
+    </div>
+    <div class="input-multiple">
+      <app-input type="input" for="number" subject="Temps de réalisation" icon="schedule" formControlName="duration"
+                 placeholder="20"></app-input>
+      <app-input type="input" for="number" subject="Prix" icon="euro_symbol" formControlName="price"
+                 placeholder="14"></app-input>
+    </div>
+
+    <app-uploader [selectedFilePreview]="selectedFilePreview" (fileSelected)="onFileSelected($event)"></app-uploader>
+    <br>
+    @if (displayRadioBoxToUpdate) {
+      <div class="input">
+        <mat-slide-toggle formControlName="updateItem">Je souhaite modifier l'item pour tous</mat-slide-toggle>
+      </div>
+    }
+
+    @if (allowChoosingExistingItem) {
+      <app-button text="{{ isUpdating() ? 'Mettre à jour' : 'Ajouter' }}" color="rgb(255, 59, 48)" (click)="addItemInSection()" [disabled]="!isActive"></app-button>
+    }
+  </form>
+
+</aside>

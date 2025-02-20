@@ -1,0 +1,45 @@
+<div *ngIf="!isAdminDashboard">
+  <app-navbar></app-navbar>
+</div>
+<div class="all-container" [style.filter]="displaySectionModal || displayItemModal ? 'blur(5px)' : 'none'">
+  @if (!toUpdate){
+    <section class="illustration">
+      <div class="header">
+        <app-logo size="200"></app-logo>
+      </div>
+      <div class="body">
+        <div class="container">
+          <h1>Ajouter un produit à votre restaurant</h1>
+          <p>Découvrez la simplicité d'ajouter et personnaliser des produits dans votre menu avec notre plateforme
+            intuitive. Offrez des options sur mesure pour séduire et fidéliser votre clientèle.</p>
+          <div class="progress-bar">
+            <h3> {{ currentStep | async }} sur {{ totalStep }} étapes</h3>
+            <h2>Complété à {{ percentStep | async }}% </h2>
+            <div class="bar">
+              <app-progress-bar [progress]="percentStep | async"></app-progress-bar>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  }
+
+
+  <section class="forms" [ngClass]="{'full-width': !toUpdate}" [style.width]=" toUpdate ? '100%' : '65%'" [style.padding-bottom]="toUpdate ? '0px' : '20px' ">
+    <aside class="header" [style.padding]="toUpdate ? '10px' : '50px'">
+      @if (!formIsCompleted()) {
+        <app-step-details></app-step-details>
+      }
+    </aside>
+    <aside class="form-item" [style.padding-left]="toUpdate ? '0px' : '150px'"  [style.padding-right]="toUpdate ? '0px' : '150px'">
+      <router-outlet></router-outlet>
+      <div class="buttons">
+        @if (!formIsCompleted()) {
+          <app-button [text]="'Précédent'" color="#c0c0c1" (click)="previous()" *ngIf="displayPrevious | async"></app-button>
+          <app-button [text]="validateButton()" color="rgb(255, 59, 48)" (click)="process()"></app-button>
+        }
+      </div>
+    </aside>
+  </section>
+</div>
+

@@ -1,0 +1,200 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$smart-meal-front-primary: mat.define-palette(mat.$indigo-palette);
+$smart-meal-front-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$smart-meal-front-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$smart-meal-front-theme: mat.define-light-theme((
+  color: (
+    primary: $smart-meal-front-primary,
+    accent: $smart-meal-front-accent,
+    warn: $smart-meal-front-warn,
+  )
+));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($smart-meal-front-theme);
+@import 'ngx-owl-carousel-o/lib/styles/scss/owl.carousel';
+@import 'ngx-owl-carousel-o/lib/styles/scss/owl.theme.default';
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; width: 100%; margin: 0 }
+
+body {
+  background-color: #f8f8f8;
+}
+
+html, body { height: 100%; position: relative}
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.mat-mdc-form-field {
+  width: 100%;
+}
+.mat-mdc-form-field-subscript-wrapper{
+  display: none;
+}
+.mat-form-field-underline {
+  display: none;
+}
+
+* {
+  font-family: Poppins, sans-serif;
+  transition: 0.3s all linear;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+}
+
+.mat-mdc-form-field-focus-overlay{
+  background-color: transparent;
+}
+.mat-mdc-text-field-wrapper.mdc-text-field{
+  border-radius: 10px;
+  border: 2px solid transparent;
+}
+
+.mat-mdc-text-field-wrapper.mdc-text-field.mdc-text-field--focused{
+  border-color: #e5e5e5;
+}
+mat-label{
+  color: #bdbdbd;
+
+}
+#mat-select-0-panel {
+  border-radius: 10px;
+}
+.mdc-line-ripple {
+  display: none;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+input[type="number"]::-ms-clear,
+input[type="number"]::-ms-reveal {
+  display: none;
+}
+input::placeholder {
+
+}
+html {
+  overflow-y: scroll;
+}
+
+.owl-theme .owl-nav {
+  display: flex;
+}
+.owl-theme .owl-nav [class*="owl-"] {
+  color: #FFF;
+  margin: 5px;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  background: #D6D6D6;
+  cursor: pointer;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  span{
+    font-size: 15px;
+  }
+}
+.owl-theme .owl-nav {
+  margin-top: 0px;
+  text-align: center;
+  -webkit-tap-highlight-color: transparent;
+  position: absolute;
+  top: -50px;
+  right: 10px;
+}
+.owl-carousel {
+}
+.owl-carousel .owl-nav.disabled, .owl-carousel .owl-dots.disabled {
+  display: flex;
+  justify-content: center;
+}
+
+.owl-item{
+  .banner-slide{
+
+    .even{
+      background-color: #faf1ed;
+    }
+
+    .odd{
+      background-color: #f2f7fa;
+    }
+    .comment{
+      padding: 20px;
+      margin: 10px;
+      border-radius: 10px;
+      box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    }
+
+    .header{
+      .persona{
+        margin-right: 10px;
+        .persona-icon{
+          width: 50px;
+        }
+      }
+      .about{
+        h3{
+          font-size: 1.4em;
+          letter-spacing: -0.2px;
+          font-family: "Lora", serif !important;
+        }
+      }
+    }
+    .body{
+      p{
+        color: #696969 !important;
+      }
+    }
+    .illustration{
+      border-radius: 10px;
+      box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    }
+  }
+}
+.owl-item:first-child{
+  .banner-slide{
+    padding-left: 0 !important;
+  }
+}
+.owl-item:last-child{
+  .banner-slide{
+    padding-right: 0 !important;
+  }
+}
+
+.owl-dots{
+  margin-top: 10px;
+}
+

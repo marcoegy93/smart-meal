@@ -1,0 +1,105 @@
+.inner-input {
+    box-sizing: border-box;
+    position: relative;
+    padding-bottom: 20px;
+    .input-multiple{
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+  
+      * {
+        width: 49%;
+      }
+    }
+    .input-multiple, .input{
+      margin-bottom: 15px;
+    }
+    .part{
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      .input{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        *{
+          //margin-right: 10px;
+        }
+      }
+      h2{
+        font-size: 20px;
+        margin-bottom: 5px;
+        color: #000000;
+        font-weight: 800;
+      }
+    }
+  }
+  
+  
+  .upload-box{
+    border: 3px dashed #0B1320;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    height: 120px;
+    width: 120px;
+    overflow: hidden;
+  
+    .text-data{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+  
+    .preview{
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+      align-items: center;
+  
+      h3{
+        font-family: "League Spartan";
+        font-size: 2em;
+      }
+    }
+  
+    h4{
+      font-family: Poppins;
+      font-weight: 700;
+      font-size: 0.8em;
+      color: #0B1320;
+      text-align: center;
+    }
+    p{
+      font-family: Poppins;
+      font-weight: 300;
+      font-size: 0.5em;
+      text-align: center;
+  
+    }
+    .icon{
+      font-size: 2em;
+    }
+  }
+
+  .account-link {
+    text-align: center;
+    margin-top: 10px;
+  }
+  
+  .account-link a {
+    color: rgb(255, 59, 48);
+    text-decoration: none;
+  }
+  
+  .account-link a:hover {
+    text-decoration: underline;
+  }
+  
+  

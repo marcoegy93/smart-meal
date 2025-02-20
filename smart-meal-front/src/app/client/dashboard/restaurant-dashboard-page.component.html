@@ -1,0 +1,78 @@
+<app-error-page *ngIf="isPageError"
+  [errorMessage]="restaurantId && 'Ce restaurant ne semble pas exister' "></app-error-page>
+<app-loading *ngIf="isLoading"></app-loading>
+<div *ngIf="!isPageError && !isLoading" class="restaurant-dashboard ">
+  <!-- <header class="restaurant-header">
+    <img class="restaurant-image" [src]="restaurant?.illustration" alt="{{ restaurant?.name }}" />
+    <div class="restaurant-info">
+      <h1>{{ restaurant?.name || "Le coin Gourmand" }}</h1>
+      <p>{{ restaurant?.address || "Address not available" }}</p>
+    </div>
+  </header> -->
+  <header class="restaurant-header">
+    <div class="order-type-selector">
+      <div class="dropdown" (click)="toggleDropdown()">
+        <img class="search-icon" src="assets/img/client/down-arrow.svg" />
+        <span>{{ getSelectedOrderType() }}</span>
+      </div>
+      <ul class="dropdown-options" *ngIf="isDropdownOpen">
+        <li *ngFor="let type of orderTypes" (click)="selectOrderType(type)">
+          {{ type }}
+        </li>
+      </ul>
+      <!-- <span class="address" *ngIf="selectedOrderType === 'Delivery'">
+        {{ userAddress || "Address not available" }}
+      </span>
+      <span class="address" *ngIf="selectedOrderType === 'Pickup' || selectedOrderType === 'Dine-In'">
+        {{ restaurant?.address || "Address not available" }}
+      </span> -->
+    </div>
+    <div class="image-container">
+      <img class="restaurant-image" [src]="restaurant?.illustration" alt="{{ restaurant?.name }}" />
+      <div class="restaurant-info">
+        <h1>{{ restaurant?.name || "Le coin Gourmand" }}</h1>
+        <p>{{ restaurant?.address || "Address not available" }}</p>
+      </div>
+    </div>
+  </header>
+
+  <div class="page-conent">
+    <div class="page-head-content">
+      <app-user-info [restaurantId]="restaurantId" [startQrScanner]="startQrScanner"></app-user-info>
+
+      @if (isDesktopView) {
+      <div class="container">
+        <div class="inner">
+          <div class="left">
+            <app-item-criteria-form [filterItemsByCriteria]="filterItemsByCriteria"></app-item-criteria-form>
+          </div>
+        </div>
+      </div>
+      }
+
+    </div>
+
+
+    <div class="page-item-content">
+      <div class="search" [ngClass]="{ 'sticky-active': isSticky }">
+        <app-search [segments]="segments" [activeSection]="activeSection" [isDesktopView]="isDesktopView"
+          [filterItemsByCriteria]="filterItemsByCriteria">
+        </app-search>
+      </div>
+      <div class="restaurant-sections">
+        <div *ngFor="let segment of segments">
+          <app-section [categoryName]="segment.name" [items]="segment.items" [restaurantId]="restaurantId"
+            [tableNumber]="tableNumber" [addToOrder]="addToOrder">
+          </app-section>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+
+  <app-bottom-nav [cartItemCount]="getOrderQuanity()" [restaurantId]="restaurantId" [tableNumber]="tableNumber">
+  </app-bottom-nav>
+
+</div>

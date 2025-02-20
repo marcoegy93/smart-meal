@@ -1,0 +1,134 @@
+.card-wrapper {
+  position: relative;
+  width: 250px;
+  cursor: pointer;
+
+  .close-section, .close-item {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: white;
+    transition: all 0.2s ease;
+    z-index: 2;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    &:hover {
+      background-color: rgb(255, 59, 48);
+      color: white;
+    }
+  }
+
+  .card {
+    width: 100%;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+
+    .optional-part {
+      width: 100%;
+      height: 140px;
+      
+      .container {
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+      }
+    }
+  }
+}
+
+.main-part {
+  position: relative;
+  padding: 12px;
+  background-color: white;
+  
+  .to-section-data {
+    position: relative;
+    
+    .additional-data {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      
+      .duration {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        background-color: #f5f5f5;
+        padding: 4px 8px;
+        border-radius: 12px;
+        color: #757575;
+        
+        app-google-icon {
+          color: #757575;
+        }
+        
+        .time {
+          margin: 0;
+          font-size: 13px;
+        }
+      }
+      
+      .price {
+        font-weight: 600;
+        color: #333;
+        font-size: 14px;
+        margin: 0;
+        background-color: #f8f8f8;
+        padding: 4px 12px;
+        border-radius: 12px;
+      }
+    }
+
+    .title {
+      font-size: 16px;
+      font-weight: 500;
+      color: #333;
+      margin: 0;
+      text-align: center;
+      width: 100%;
+      display: block;
+      position: relative;
+      padding: 8px 0;
+      
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 40px;
+        height: 2px;
+        background-color: #ea2d25;
+        border-radius: 2px;
+      }
+    }
+  }
+}
+
+.close-item{
+
+}
+
+.card[data-type="SECTION"] {
+  .main-part {
+    padding: 12px 15px;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+
+    app-google-icon {
+      color: rgb(255, 59, 48);
+    }
+  }
+}

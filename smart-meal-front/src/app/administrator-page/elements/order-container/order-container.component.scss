@@ -1,0 +1,312 @@
+section {
+  background: white;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .items {
+    flex: 1;
+    min-height: 0;
+
+    .banner-slide {
+      padding: 40px;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 80px;
+      color: #666;
+      p {
+        margin: 0;
+        
+        &.hint {
+          font-size: 14px;
+          color: #999;
+          margin-top: 8px;
+        }
+      }
+    }
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+
+    h4 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+
+    p {
+      margin-left: 80px;
+    }
+  }
+
+  .categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    .category-item {
+      flex: 1;
+      padding: 8px 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      h4 {
+        color: white;
+        font-size: 13px;
+        font-weight: 500;
+        margin: 0;
+        text-align: center;
+      }
+
+      &.active {
+        transform: scale(1.05);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      }
+
+      &.all {
+        background: #6b7280;
+        &:hover { background: darken(#6b7280, 5%); }
+        &.active { background: darken(#6b7280, 10%); }
+      }
+
+      &.in-progress {
+        background: #3b82f6;
+        &:hover { background: darken(#3b82f6, 5%); }
+        &.active { background: darken(#3b82f6, 10%); }
+      }
+
+      &.ready {
+        background: #22c55e;
+        &:hover { background: darken(#22c55e, 5%); }
+        &.active { background: darken(#22c55e, 10%); }
+      }
+
+      &.to-pay {
+        background: #eab308;
+        &:hover { background: darken(#eab308, 5%); }
+        &.active { background: darken(#eab308, 10%); }
+      }
+
+      &.done {
+        background: #14b8a6;
+        &:hover { background: darken(#14b8a6, 5%); }
+        &.active { background: darken(#14b8a6, 10%); }
+      }
+
+      &.cancelled {
+        background: #ef4444;
+        &:hover { background: darken(#ef4444, 5%); }
+        &.active { background: darken(#ef4444, 10%); }
+      }
+    }
+  }
+
+  @media (max-width: 600px) {
+    .categories {
+      flex-direction: column;
+      .category-item {
+        max-width: 90%;
+        width: 100%;
+      }
+    }
+  }
+
+  .order-card {
+    background: white;
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    box-shadow: 0 8px 16px rgb(0 0 0 / 0.3);
+    transition: all 0.2s ease;
+    max-width: 300px;
+    width: 100%;
+    border-left: 4px solid transparent;
+
+    &.status-in-progress {
+      border-left-color: #3b82f6;
+    }
+
+    &.status-ready {
+      border-left-color: #22c55e;
+    }
+
+    &.status-to-pay {
+      border-left-color: #eab308;
+    }
+
+    &.status-done {
+      border-left-color: #14b8a6;
+    }
+
+    &.status-cancelled {
+      border-left-color: #ef4444;
+    }
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    }
+
+    .nOrder {
+      background: #f3f4f6;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      h3 {
+        color: #4b5563;
+        font-size: 13px;
+        font-weight: 600;
+        margin: 0;
+      }
+    }
+
+    .content {
+      flex: 1;
+
+      .order-contact {
+
+        h4 {
+          color: #1a1a1a;
+          font-size: 14px;
+          font-weight: 600;
+          margin: 0 0 2px 0;
+        }
+
+        p {
+          color: #6b7280;
+          font-size: 12px;
+          margin: 0;
+        }
+      }
+
+      .order-data {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+
+        span {
+          color: #ea2d25;
+          font-size: 16px;
+        }
+
+        p {
+          color: #4b5563;
+          font-size: 12px;
+          margin: 0;
+        }
+      }
+    }
+  }
+
+  ::ng-deep {
+    .owl-nav {
+      position: absolute;
+      right: 0;
+      top: 0;
+      display: flex;
+      gap: 8px;
+
+      button {
+        background: none !important;
+        color: #6b7280 !important;
+        font-size: 16px !important;
+        padding: 0 !important;
+        margin: 0 !important;
+
+        &:hover {
+          color: #374151 !important;
+        }
+
+        span {
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}
+
+/* TODO : move to component */
+
+.order-card {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: start;
+
+  .nOrder{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    margin-right: 10px;
+
+    background-color: #e4e4e4;
+    border-radius: 50%;
+
+    h3 {
+      font-size: 0.9em;
+      color: white;
+    }
+  }
+
+  .content{
+    .order-contact{
+      h4{
+        font-size: 0.9em;
+        letter-spacing: -1px;
+      }
+      p{
+        margin-top: -5px;
+        font-size: 0.7em;
+        font-weight: 200;
+      }
+    }
+    .order-data{
+      display: flex;
+      align-items: center;
+
+      span{
+        margin-right: 5px;
+        font-size: 1em;
+      }
+      *{
+        animation: pulse 1s infinite alternate;
+      }
+      p{
+        font-size: 0.8em;
+        font-weight: 300;
+      }
+    }
+  }
+
+  @keyframes pulse {
+    0% {
+      color: #e1e1e1;
+    }
+    100% {
+      color: #3c3c3c;
+    }
+  }
+
+}

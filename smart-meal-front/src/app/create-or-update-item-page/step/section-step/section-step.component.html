@@ -1,0 +1,47 @@
+<div class="part">
+  <div class="header">
+    <h2>Mes sections incluses</h2>
+    <p class="description">Ajoutez ou créez des sections pour organiser votre contenu</p>
+  </div>
+  
+  <div class="sections-container">
+    <div class="input">
+      @for (section of sections; track section; let i = $index) {
+        <app-card type="SECTION" [name]="section.name || ''" (click)="openContainer(section, i)" [section]="section" (deleteSection)="removeSection(i)"></app-card>
+      }
+      <app-add-button type="SECTION" (click)="openContainer()"></app-add-button>
+    </div>
+    
+    @if (sections.length === 0) {
+      <div class="empty-state">
+        <p>Aucune section n'a encore été ajoutée</p>
+        <p class="hint">Cliquez sur le bouton + pour commencer</p>
+      </div>
+    }
+  </div>
+</div>
+
+@if (showFormToAddOrCreateSection) {
+  <div class="container">
+    <div class="inner">
+      <div class="close" (click)="closeContainer()">
+        <app-google-icon name="close" size="20"></app-google-icon>
+      </div>
+      <div class="left">
+        <app-form-section [sectionFromScratch]="managedSection!"
+                          [showExistingSections]="showExistingSections"
+                          (submitSection)="addSectionOnMainItem()"
+                          (managedSectionEvent)="setCommonDataOnSection($event)"
+                          (itemToUpdate)="updateItem($event)"></app-form-section>
+      </div>
+      <div class="right">
+        <app-item-form (managedItemEvent)="addItemOnSection($event)"
+                       [itemToUpdate]="itemToUpdate"
+                       [allowChoosingExistingItem]="true"
+                       [isActive]="activateItemForm"
+        ></app-item-form>
+      </div>
+    </div>
+  </div>
+}
+

@@ -1,0 +1,9 @@
+@if(!itemIsGood) {
+  <app-spinner></app-spinner>
+}
+<section>
+  <aside class="items">
+    <app-items-container [isOnMainPage]="true" (dataRetrieved)="itemReceived()"></app-items-container>
+    <app-sections-container></app-sections-container>
+  </aside>
+</section>

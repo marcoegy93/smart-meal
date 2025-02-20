@@ -1,0 +1,14 @@
+<div class="container" (click)="hide()">
+
+</div>
+<div class="content">
+  <div class="close-box" (click)="closeModal()">
+    <app-google-icon name="close" size="20 "></app-google-icon>
+  </div>
+  @if(for == "SECTION") {
+    <app-form-section></app-form-section>
+  }
+  @if(for == "ITEM") {
+    <app-item-form></app-item-form>
+  }
+</div>

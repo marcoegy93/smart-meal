@@ -1,0 +1,12 @@
+<div class="cookie-banner" *ngIf="isVisible">
+  <div class="cookie-content">
+    <p>
+      Nous utilisons des cookies pour améliorer votre expérience sur notre site. 
+      En continuant à naviguer, vous acceptez notre utilisation des cookies.
+    </p>
+    <div class="cookie-buttons">
+      <button class="accept-button" (click)="acceptCookies()">Accepter</button>
+      <button class="refuse-button" (click)="refuseCookies()">Refuser</button>
+    </div>
+  </div>
+</div> 

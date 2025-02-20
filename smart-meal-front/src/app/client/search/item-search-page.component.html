@@ -1,0 +1,32 @@
+<div class="restaurant-dashboard ">
+
+  <div class="search">
+    <app-search [segments]="segments" [isDesktopView]=false [isFalseSearch]=false
+      [filterItemsByRegex]="filterItemsByRegex" [filterItemsByCriteria]="filterItemsByCriteria"></app-search>
+  </div>
+
+
+  <!-- <div class="searched-items">
+    <div *ngFor="let section of sections">
+      <app-section [section]="section" [addToOrder]="addToOrder"></app-section>
+    </div>
+    <app-item *ngFor="let item of searchedItems" [item]="item" [addToOrder]="addToOrder"></app-item>
+  </div> -->
+
+  <div class="restaurant-segments">
+    <div *ngFor="let segment of segments">
+      <app-section [categoryName]="segment.name" [items]="segment.items" [restaurantId]="restaurantId"
+        [addToOrder]="addToOrder">
+      </app-section>
+    </div>
+  </div>
+
+  <app-bottom-nav [cartItemCount]="getOrderQuanity()" [restaurantId]="restaurantId" [tableNumber]="tableNumber">
+  </app-bottom-nav>
+  
+  <!-- <footer class="order-summary">
+    <button class="view-order" (click)="goToOrder()">
+      Panier ({{ currentOrder.length }})
+    </button>
+  </footer> -->
+</div>

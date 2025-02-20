@@ -1,0 +1,73 @@
+<section>
+  <div class="header">
+    <div class="left">
+      <h4>Mes sections</h4>
+      <p class="description">Retrouvez ici toutes vos sections que vous avez configuré, vous pouvez en rajouter et en modifier</p>
+    </div>
+
+    <p class="add" (click)="openContainer()">Ajouter une section</p>
+  </div>
+  <div class="search-bar">
+    <app-input type="input" 
+               subject="Recherche" 
+               icon="search"
+               placeholder="Menu burger"
+               (input)="onSearch($event)"></app-input>
+  </div>
+
+  <div class="sections">
+    <owl-carousel-o [options]="customOptions" *ngIf="filteredSections.length > 0">
+      <ng-container *ngFor="let section of filteredSections; let i = index">
+        <ng-template carouselSlide [id]="section.sectionId || ''">
+          <div class="banner-slide">
+            <app-card type="SECTION" 
+                     [name]="section.name || ''" 
+                     [section]="section"
+                     (sectionClicked)="openContainer($event)"
+                     (deleteSection)="onDeleteSection($event)">
+            </app-card>
+          </div>
+        </ng-template>
+      </ng-container>
+    </owl-carousel-o>
+    <div class="empty-state" *ngIf="filteredSections.length === 0">
+      <p>{{ getEmptyStateText() }}</p>
+      <p class="hint">Cliquez sur le bouton "Ajouter une section" pour commencer</p>
+    </div>
+  </div>
+</section>
+
+@if (showFormToAddOrCreateSection) {
+  <div class="container">
+    <div class="inner">
+      <div class="close" (click)="closeContainer()">
+        <app-google-icon name="close" size="20"></app-google-icon>
+      </div>
+      <div class="left">
+        <app-form-section [sectionFromScratch]="managedSection!"
+                         [showExistingSections]="showExistingSections"
+                         [componentName]="'SectionsContainer'"
+                         (submitSection)="closeContainer()"
+                         (managedSectionEvent)="setCommonDataOnSection($event)"
+                         (itemToUpdate)="updateItem($event)">
+        </app-form-section>
+      </div>
+      <div class="right">
+        <app-item-form (managedItemEvent)="addItemOnSection($event)"
+                      [itemToUpdate]="itemToUpdate"
+                      [allowChoosingExistingItem]="true"
+                      [isActive]="activateItemForm"
+        ></app-item-form>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- Ajout de la modale de confirmation -->
+<app-confirmation-modal
+  [isVisible]="showDeleteConfirmation"
+  title="Confirmer la suppression"
+  message="Êtes-vous sûr de vouloir supprimer cette section ? Cette action est irréversible. Cela aura pour effet de supprimer cette section des produits composés existants."
+  (confirm)="confirmDelete()"
+  (cancel)="cancelDelete()">
+</app-confirmation-modal>

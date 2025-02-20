@@ -1,0 +1,31 @@
+<div class="search-filters">
+  <div *ngIf=isFalseSearch class="section-filters">
+    <img class="burger-icon" src="assets\img\client\burger-list-icon.svg" />
+    <span *ngFor="let segment of segments" (click)="scrollToSection(segment.segmentId)"
+      [class.active]="segment.segmentId === activeSection">
+      {{ segment.name }}
+    </span>
+  </div>
+
+  <div class="search-section">
+    <div class="search-bar" (click)="navigateToSearch()">
+      <img *ngIf=isFalseSearch class="search-icon" src="assets\img\client\search-icon.svg" />
+      <img *ngIf=!isFalseSearch class="search-icon" (click)="navigateToHome()"
+        src="assets\img\client\back-navigation.svg" />
+      <input type="text" placeholder="Pizza peut-être?" (input)="handleInput($event)" />
+      @if (!isDesktopView) {
+        <button class="filter-button" (click)="handleClickFilter($event); $event.stopPropagation()">
+          <img class="search-icon" src="assets\img\client\filter-icon.svg" alt="Filter" />
+        </button>
+        }
+    </div>
+
+  </div>
+  @if (showFilterItemsForm) {
+  <div class="container">
+    <app-item-criteria-form [filterItemsByCriteria]="filterItemsByCriteria"
+      [onCancel]="closeContainer"></app-item-criteria-form>
+
+  </div>
+  }
+</div>

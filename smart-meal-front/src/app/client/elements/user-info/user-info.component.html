@@ -1,0 +1,80 @@
+<div class="info-boxes">
+    <div *ngIf="orderType && orderType == OrderTypeString.SUR_PLACE" class="info-box">
+        <div class="info-label">Votre table</div>
+        <div class="info-content">
+            <span class="table-number">{{tableNumber}}</span>
+            <button class="rescan-btn" (click)="startScan()">
+                <img class="accent-icon" src="assets/img/client/scan-qrcode.svg" alt="QR">
+                Re-scan
+            </button>
+        </div>
+    </div>
+
+    <div class="info-box">
+        <div class="info-label">Votre prenom</div>
+        <div class="info-content" *ngIf="!isEditingName" (click)="startEditingName()">
+            <span class="name" *ngIf="customerName; else noName">
+                {{ customerName }}
+            </span>
+            <ng-template #noName>
+                <span class="name"></span>
+            </ng-template>
+
+            <button class="edit-btn" (click)="startEditingName()">
+                <img class="accent-icon" src="assets/img/client/circular-arrow.svg" alt="Edit">
+                Edit
+            </button>
+        </div>
+        <div class="info-content" *ngIf="isEditingName">
+            <input type="text" [(ngModel)]="customerName" (blur)="finishEditingName()" class="name-input" #nameInput>
+        </div>
+    </div>
+
+
+</div>
+<div class="container" [class.show]="showQrCodeScanner">
+    <div class="inner">
+        <div>
+            <span class="title">Scanner un QR Code</span>
+            <div class="close-item" (click)="closeScanner()">
+                <app-google-icon name="close" size="20"></app-google-icon>
+            </div>
+        </div>
+
+        <div class="tab-content" [class.active]="activeTab === 'qr'">
+            <div class="qr-scanner-container">
+                <div id="reader"></div>
+                <div class="button-container">
+                    <div class="secondary-button-group">
+                        <app-button
+                            [text]="'Entrer plutôt un numéro de table'"
+                            [color]="'#9f9f9f'"
+                            (click)="setActiveTab('manual')">
+                        </app-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" [class.active]="activeTab === 'manual'">
+            <div class="manual-input-container">
+                <input type="number" class="table-input" [(ngModel)]="manualTableNumber"
+                    placeholder="Enter table number">
+                <div class="button-container">
+                    <div class="secondary-button-group">
+                        <app-button
+                            [text]="'Scanner plutôt un QR Code'"
+                            [color]="'#9f9f9f'"
+                            (click)="setActiveTab('qr')">
+                        </app-button>
+                    </div>
+                    <app-button
+                        [text]="'Confirmer'"
+                        [color]="'#e74c3c'"
+                        (click)="submitManualTableNumber()">
+                    </app-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

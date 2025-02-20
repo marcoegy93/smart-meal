@@ -1,0 +1,43 @@
+<div class="item-order-page">
+
+  <!-- Header -->
+  <div class="header">
+    <img class="search-icon" (click)="navigateBack()" src="assets\img\client\back-navigation.svg" />
+    <h2 class="title">Ma commande</h2>
+    <!-- exist to properly center H2 -->
+    <img class="search-icon" (click)="clearOrder()" src="assets\img\client\trash-can.svg" />
+  </div>
+
+  <app-user-info [restaurantId]="restaurantId"></app-user-info>
+
+  <div class="item-cards">
+    <app-order-item *ngFor="let orderedItem of currentOrder" [item]="getItemById(orderedItem.itemId)"
+      [restaurantId]="restaurantId" [orderedItem]="orderedItem" [increaseOrderQuantity]="increaseOrderQuantity"
+      [decreaseOrderQuantity]="decreaseOrderQuantity">
+    </app-order-item>
+  </div>
+
+
+  <!-- <div class="searched-items">
+    <div *ngFor="let section of sections">
+      <app-section [section]="section" [addToOrder]="addToOrder"></app-section>
+    </div>
+    <app-item *ngFor="let item of searchedItems" [item]="item" [addToOrder]="addToOrder"></app-item>
+  </div> -->
+
+  <footer class="price-and-button">
+    <div>
+      <span>Total</span>
+      <div class="price">{{ calculatePrice() }} €</div>
+    </div>
+        <div class="footer-content">
+      <div class="missing-sections">
+        <div *ngFor="let message of getMissingSectionsRequirements()" class="error-message">
+          {{ message }}
+        </div>
+      </div>
+
+      <button [disabled]="!canConfirmOrder()" (click)="confirmOrder()" class="cta-button">Payer</button>
+    </div>
+  </footer>
+</div>

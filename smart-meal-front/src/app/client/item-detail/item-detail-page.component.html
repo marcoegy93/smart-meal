@@ -1,0 +1,87 @@
+<div class="item-detail-page">
+  <!-- Header -->
+  <div class="header">
+    <img class="search-icon" (click)="navigateBack()" src="assets\img\client\back-navigation.svg" />
+    <h2 class="title">Details</h2>
+    <img class="search-icon-hidden" (click)="navigateBack()" src="assets\img\client\back-navigation.svg" />
+  </div>
+
+  <!-- Illustration -->
+  <div class="item-illustration">
+    <img [src]="item.illustration" alt="{{ item.name }}" />
+  </div>
+
+  <!-- <div>
+
+  </div> -->
+  <!-- Item Info -->
+  <div class="item-info">
+    <div class="name-and-quantity">
+      <h1>{{ item.name }}</h1>
+      <!-- <div *ngIf="item.type !== 'SIMPLE'" class="quantity-controls">
+        <button (click)="confirmItem()">-</button>
+        <span>{{ itemQuantity }}</span>
+        <button (click)="confirmItem()">+</button>
+      </div> -->
+    </div>
+
+    <!-- Description -- item description needs to be added to IITem -->
+    <div class="section">
+      <h3>Description</h3>
+      <p>{{item.description}}</p>
+    </div>
+
+    <div *ngIf="item.type === 'SIMPLE'" class="section">
+      <h3>Ingredients</h3>
+      <div class="ingredients">
+        <span *ngFor="let ingredient of item.ingredients" class="ingredient">{{ ingredient }}</span>
+      </div>
+    </div>
+
+
+    <div *ngFor="let section of item.sections" class="section">
+      <h3>{{ section.name }}</h3>
+      <div class="aside-items">
+        <div *ngFor="let sectionItem of section.items" class="aside-item">
+          <img [src]="sectionItem.illustration" alt="{{ sectionItem.name }}" />
+          <div class="aside-item-info">
+            <span class="aside-item-name">{{ sectionItem.name }}</span>
+            <span class="aside-item-price">Inclus</span>
+          </div>
+
+          <div class="quantity-controls">
+            <button [disabled]="!canRemoveAsideItem(section.sectionId || '', sectionItem.itemId || '')"
+              [class.accent-color]="canRemoveAsideItem(section.sectionId || '', sectionItem.itemId || '')"
+              (click)="removeAsideItem(section.sectionId || '', sectionItem.itemId || '')">
+              -
+            </button>
+            <span>{{ getAsideItemQuantity(section.sectionId || '', sectionItem.itemId || '') }}</span>
+            <button [disabled]="!canAddAsideItem(section, sectionItem.itemId || '')"
+              [class.accent-color]="canAddAsideItem(section, sectionItem.itemId || '')"
+              (click)="addAsideItem(section, sectionItem.itemId || '')">
+              +
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+  </div>
+  <footer class="price-and-button">
+    <div>
+      <span>Price</span>
+      <div class="price">{{ item.price }} €</div>
+    </div>
+    <div class="footer-content">
+      <div class="missing-sections">
+        <div *ngFor="let message of getMissingSectionsRequirements()" class="error-message">
+          {{ message }}
+        </div>
+      </div>
+
+      <button [disabled]="!canConfirmOrder()" (click)="confirmItem()" class="cta-button">Ajouter</button>
+    </div>
+  </footer>
+</div>

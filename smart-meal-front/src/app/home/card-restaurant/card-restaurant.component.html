@@ -1,0 +1,25 @@
+<div class="restaurant-card" (click)="navigateToRestaurantDetail()">
+  <!-- Check if the image is valid -->
+  <ng-container *ngIf="isImageValid; else noImage">
+    <img [src]="restaurant.illustration" alt="{{ restaurant.name }}" class="restaurant-image" />
+  </ng-container>
+
+  <!-- Fallback content if the image is not valid -->
+  <ng-template #noImage>
+    <div class="no-image">
+      <h3 class="restaurant-name">{{ restaurant.name }}</h3>
+    </div>
+  </ng-template>
+
+  <div class="restaurant-details">
+    <h3 class="restaurant-name-text">{{ restaurant.name }}</h3>
+    <p class="restaurant-address">{{ restaurant.address }}</p>
+    <p class="restaurant-avg-price">
+      @if (restaurant.averagePrice && restaurant.averagePrice > 0) {
+        Prix moyen : {{ restaurant.averagePrice }}€
+      } @else {
+        <span class="undefined-price">Prix moyen non défini</span>
+      }
+    </p>
+  </div>
+</div>

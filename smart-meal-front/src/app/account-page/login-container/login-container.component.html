@@ -1,0 +1,25 @@
+<aside class="inner-input">
+  <div class="filter"></div>
+  <form [formGroup]="loginForm">
+    <div class="part">
+      <h2>Connexion à votre compte</h2>
+
+      <div class="input">
+        <app-input type="input" subject="Email" icon="email"
+                   placeholder="jean.dubois@gmail.com" formControlName="email"></app-input>
+      </div>
+
+      <div class="input">
+        <app-input type="password" subject="Mot de passe" icon="lock"
+                   placeholder="********" formControlName="password"></app-input>
+      </div>
+
+    </div>
+    <div class="buttons">
+      <app-button [text]="'Connexion'" color="rgb(255, 59, 48)" (click)="submit()"></app-button>
+    </div>
+  </form>
+  <div class="account-link">
+    <p>Pas encore de compte restaurateur ? <a routerLink="/account/create">Créez-en un dès maintenant</a></p>
+  </div>
+</aside>

@@ -1,0 +1,97 @@
+<!-- Ajout de la barre de progression -->
+<div class="process-wrap">
+  <div class="process-main">
+    <div class="col-6">
+      <div class="process-step-cont" (click)="goTo('restaurant')">
+        <div [class]="currentStep === 'restaurant' ? 'process-step step-1 focus' : 'process-step step-1'"></div>
+        <span [class]="currentStep === 'restaurant' ? 'process-label focus-label' : 'process-label'">Mon restaurant</span>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="process-step-cont" (click)="goTo('admin')">
+        <div [class]="currentStep === 'admin' ? 'process-step step-2 focus' : 'process-step step-2'"></div>
+        <span [class]="currentStep === 'admin' ? 'process-label focus-label' : 'process-label'">Mes informations</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<aside class="inner-input">
+  <div class="filter"></div>
+  <form [formGroup]="settingsForm">
+    <!-- Step 1: Restaurant Info -->
+    @if (currentStep === 'restaurant') {
+      <div class="part">
+        <h2>Les informations sur votre restaurant</h2>
+        <div class="input">
+          <app-input type="input" subject="Nom du restaurant" icon="restaurant"
+                     placeholder="Macdonald's" formControlName="restaurantName"></app-input>
+        </div>
+        <div class="input">
+          <app-input type="input" subject="Numéro + Rue" icon="location_on"
+                     placeholder="8 Rue dufont lardin" formControlName="street"></app-input>
+        </div>
+        <div class="input-multiple">
+          <app-input type="input" subject="Code postal" icon="pin_drop"
+                     placeholder="933360" formControlName="postalCode"></app-input>
+          <app-input type="input" subject="Ville" icon="location_city"
+                     placeholder="Neuilly-Plaisance" formControlName="city"></app-input>
+        </div>
+        <div class="input-multiple">
+          <app-input type="input" subject="Siret" icon="business"
+                     placeholder="9867975767988" formControlName="restaurantSiret"></app-input>
+          <app-input type="input" subject="TVA" icon="request_quote"
+                     placeholder="RC97576uh88" formControlName="restaurantTva"></app-input>
+        </div>
+        <app-uploader [selectedFilePreview]="selectedFilePreviewRestaurant" (fileSelected)="onRestaurantPictureSelected($event)" [aspectRatio]="16/9"></app-uploader>
+      </div>
+    }
+
+    <!-- Step 2: Admin Info -->
+    @if (currentStep === 'admin') {
+      <div class="part">
+        <h2>Les informations sur vous</h2>
+        <div class="input-multiple">
+          <app-input type="input" subject="Nom" icon="person"
+                     placeholder="Marvin" formControlName="lastName"></app-input>
+          <app-input type="input" subject="Prénom" icon="person_outline"
+                     placeholder="Acme" formControlName="firstName"></app-input>
+        </div>
+        <div class="input-multiple">
+          <app-input type="input" subject="Email" icon="email"
+                     placeholder="marvin.acme@gmail.com" formControlName="email"></app-input>
+          <app-input type="input" subject="Téléphone" icon="phone"
+                     placeholder="0156467876" formControlName="phone"></app-input>
+        </div>
+        <app-uploader [selectedFilePreview]="selectedFilePreviewAccount" (fileSelected)="onAdminPictureSelected($event)"></app-uploader>
+      </div>
+    }
+
+    <br>
+    <div class="buttons">
+      @if (currentStep !== 'restaurant') {
+        <app-button
+          [text]="'Précédent'"
+          [color]="'#666'"
+          (click)="previousStep()">
+        </app-button>
+      }
+
+      @if (currentStep === 'restaurant') {
+        <app-button
+          [text]="'Suivant'"
+          [color]="'rgb(255, 59, 48)'"
+          (click)="nextStep()">
+        </app-button>
+      } @else {
+        <app-button
+          [text]="'Mettre à jour mes informations'"
+          [color]="'rgb(255, 59, 48)'"
+          [disabled]="isLoading"
+          [isLoading]="isLoading"
+          (click)="submit()">
+        </app-button>
+      }
+    </div>
+  </form>
+</aside>

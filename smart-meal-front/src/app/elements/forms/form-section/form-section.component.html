@@ -1,0 +1,69 @@
+<aside class="inner-input">
+  <form [formGroup]="sectionForm">
+    <div class="part" *ngIf="showExistingSections">
+      <h2>Choisir une section existante</h2>
+      <div class="input">
+        <app-input type="select" subject="Choisir une section existante" formControlName="selectedSection"
+                   [selectValues]="sectionSelectValue"></app-input>
+      </div>
+    </div>
+
+    <div class="part">
+      <h2>Créer une section</h2>
+      <div class="input">
+        <app-input type="select" for="text" subject="Type" [selectValues]="sectionTypes" formControlName="typeOfSection"
+                   placeholder="Type de la section..."></app-input>
+      </div>
+      <div class="input-multiple" *ngIf="showPositionInput">
+        <app-input type="input" for="text" subject="Nom de la section" icon="category" formControlName="name"
+                   placeholder="Nom de la section..."></app-input>
+        <app-input type="input" for="number" subject="Position de la section" icon="category"
+                   formControlName="positionOfSection" placeholder="Position de la section..."></app-input>
+      </div>
+      <div class="input" *ngIf="!showPositionInput">
+        <app-input type="input" for="text" subject="Nom de la section" icon="category" formControlName="name"
+                   placeholder="Nom de la section..."></app-input>
+      </div>
+      
+
+      <div class="input-multiple">
+        <app-input type="input" for="number" subject="Nombre de choix minimum" icon="category"
+                   formControlName="choiceMin" placeholder="Choix minimum"></app-input>
+        <app-input type="input" for="number" subject="Nombre de choix maximum" icon="category"
+                   formControlName="choiceMax" placeholder="Nombre de choix maximums"></app-input>
+      </div>
+    </div>
+
+    <div class="item-included" [class.disabled]="!sectionFromScratch?.items?.length">
+      <h2>Les produits inclus</h2>
+      <div class="input items">
+        @if (sectionFromScratch?.items?.length) {
+          @for (item of sectionFromScratch.items; track item; let i = $index) {
+            <app-card (deleteItem)="removeItem(i)" type="ITEM" [name]="item.name!" class="card" (click)="updateItem(item, i)" [item]="item"></app-card>
+          }
+        } @else {
+          <div class="empty-state">
+            <p>Aucun produit n'a été ajouté à cette section</p>
+            <p class="hint">Utilisez le formulaire de droite pour ajouter des produits</p>
+          </div>
+        }
+      </div>
+    </div>
+
+    @if (displayRadioBoxToUpdate) {
+      <div class="input">
+        <mat-slide-toggle formControlName="updateSection">Je souhaite modifier la section pour tous</mat-slide-toggle>
+      </div>
+    }
+  </form>
+  <br>
+
+  <app-button 
+    class="add-section-btn" 
+    [text]="getBtnText()"
+    [disabled]="!sectionFromScratch?.items?.length"
+    [color]="sectionFromScratch?.items?.length ? 'rgb(255, 59, 48)' : '#c0c0c1'"
+    (click)="addSection()"
+  ></app-button>
+  <br>
+</aside>

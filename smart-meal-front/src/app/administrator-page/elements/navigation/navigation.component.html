@@ -1,0 +1,43 @@
+<nav>
+  <div class="container">
+    <div class="logo" (click)="onLogoClick()">
+      <img src="assets/img/favicon.png" alt="logo"/>
+    </div>    
+    <div class="menu">
+      <div [class]="currentPage === 'dashboard' || currentPage === '' ? 'item selected' : 'item'" (click)="navigate('dashboard')">
+        <span class="material-symbols-outlined">home</span>
+        <p>Accueil</p>
+      </div>
+
+      <div [class]="currentPage === 'item' ? 'item selected' : 'item'" (click)="navigate('item')">
+        <span class="material-symbols-outlined">lunch_dining</span>
+        <p>Mes produits</p>
+      </div>
+
+      <div [class]="currentPage === 'qr_code' ? 'item selected' : 'item'" (click)="navigate('qr_code')">
+        <span class="material-symbols-outlined">qr_code</span>
+        <p>Mes QR Code</p>
+      </div>
+
+      <div [class]="currentPage === 'setting' ? 'item selected' : 'item'" (click)="navigate('setting')">
+        <span class="material-symbols-outlined">settings</span>
+        <p>Mes réglages</p>
+      </div>
+    </div>
+
+    <div class="logout" (click)="requestDeconnexion()">
+      <div class="item">
+        <span class="material-symbols-outlined">logout</span>
+        <p>Déconnexion</p>
+      </div>
+    </div>    
+  </div>
+</nav>
+
+<app-confirmation-modal
+  [isVisible]="showDeconnexionConfirmation"
+  title="Confirmer la déconnexion"
+  message="Êtes-vous sûr de vouloir vous déconnecter ?"
+  (confirm)="confirmDeconnexion()"
+  (cancel)="cancelDeconnexion()">
+</app-confirmation-modal>

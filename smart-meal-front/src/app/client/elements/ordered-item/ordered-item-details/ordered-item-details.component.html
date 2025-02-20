@@ -1,0 +1,36 @@
+<div class="modal-overlay" *ngIf="isVisible" (click)="onClose()">
+  <div class="modal-content" (click)="stopPropagation($event)">
+    <div class="modal-header">
+      <div class="item-info">
+        <h2>{{ item?.name }}</h2>
+      </div>
+      <button class="close-button" (click)="onClose()">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <div class="item-details">
+        <h3>Détails de l'article</h3>
+        <div class="details-list">
+          <p><strong>Quantité:</strong> {{ item?.quantity }}</p>
+          <p><strong>Prix unitaire:</strong> {{ item?.price }}€</p>
+        </div>
+      </div>
+
+      <div class="additional-details" *ngIf="item?.additionalDetails?.length">
+        <h3>Options sélectionnées</h3>
+        <div class="options-list">
+          <div class="option" *ngFor="let detail of item?.additionalDetails">
+            <span class="option-name">{{ detail.name }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="item-total">
+        <h3>Total</h3>
+        <p class="total-price">{{ getTotalPrice() }}€</p>
+      </div>
+    </div>
+  </div>
+</div>

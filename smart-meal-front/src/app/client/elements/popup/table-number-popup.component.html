@@ -1,0 +1,11 @@
+<div class="container">
+  <div class="inner">
+    <div class="close" (click)="closeContainer()">
+      <app-google-icon name="close" size="20"></app-google-icon>
+    </div>
+    <div class="left">
+      <app-form-section [sectionFromScratch]="managedSection!" (submitSection)="addSectionOnMainItem()"
+        (managedSectionEvent)="setCommonDataOnSection($event)" (itemToUpdate)="updateItem($event)"></app-form-section>
+    </div>
+  </div>
+</div>
