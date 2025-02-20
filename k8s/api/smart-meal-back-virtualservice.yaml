@@ -6,13 +6,19 @@ spec:
   hosts:
     - "*"
   gateways:
-    - smart-meal-back-gateway
+    - microservice-gateway
   http:
     - match:
         - uri:
-            prefix: /
-      rewrite:
-        uri: /
+            prefix: /api
+      route:
+        - destination:
+            port:
+              number: 7172
+            host: smart-meal-back.default.svc.cluster.local
+    - match:
+        - uri:
+            prefix: /swagger
       route:
         - destination:
             port:
