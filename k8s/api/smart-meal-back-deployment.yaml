@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: smart-meal-back
+  labels:
+    app: smart-meal-back
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: smart-meal-back
+  template:
+    metadata:
+      labels:
+        app: smart-meal-back
+    spec:
+      containers:
+        - name: smart-meal-back
+          image: marcobalamon/smart-meal-back-api:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 7172
+          env:
+            - name: JWT_TOKEN_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: smart-meal-secrets
+                  key: JWT_TOKEN_KEY
+            - name: DB_PASSWORD_SMART_MEAL
+              valueFrom:
+                secretKeyRef:
+                  name: smart-meal-secrets
+                  key: DB_PASSWORD_SMART_MEAL
+            - name: SMTP_PASSWORD_SMART_MEAL
+              valueFrom:
+                secretKeyRef:
+                  name: smart-meal-secrets
+                  key: SMTP_PASSWORD_SMART_MEAL
+            - name: SECRET_STRIPE
+              valueFrom:
+                secretKeyRef:
+                  name: smart-meal-secrets
+                  key: SECRET_STRIPE
