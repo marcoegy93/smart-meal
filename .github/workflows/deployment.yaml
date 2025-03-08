@@ -1,0 +1,132 @@
+name: CI/CD Deployment
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: 🛠 Checkout du code
+        uses: actions/checkout@v4
+
+      - name: 🚀 Vérifier et démarrer Minikube
+        run: |
+          if ! minikube status | grep -q "Running"; then
+            echo "Minikube non démarré. Démarrage..."
+            minikube start --driver=docker
+          else
+            echo "Minikube est déjà en cours d'exécution."
+          fi
+
+      - name: 🔐 Vérifier et installer Sealed Secrets Controller
+        run: |
+          if ! kubectl get pods -n kube-system | grep -q "sealed-secrets-controller"; then
+            echo "Installation de Sealed Secrets Controller..."
+            kubectl apply -f https://github.com/bitnami-labs/sealed-secrets/releases/latest/download/controller.yaml
+          else
+            echo "Sealed Secrets Controller est déjà installé."
+          fi
+
+      - name: 🔑 Vérifier et installer Kubeseal
+        run: |
+          if ! command -v kubeseal &> /dev/null; then
+            echo "Installation de Kubeseal..."
+            wget https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.27.3/kubeseal-0.27.3-linux-amd64.tar.gz
+            tar -xvzf kubeseal-0.27.3-linux-amd64.tar.gz kubeseal
+            echo "${{ secrets.ACCOUNT_PASSWORD }}" | sudo -S install -m 755 kubeseal /usr/local/bin/kubeseal
+          else
+            echo "Kubeseal est déjà installé."
+          fi
+
+      - name: 🗄 Vérifier et préparer le stockage pour SQL Server
+        run: |
+          # Créer un fichier de script bash à exécuter dans minikube
+          echo "
+          if [ ! -d \"/mnt/data/sqlserver\" ]; then
+            echo \"Création du répertoire SQL Server...\"
+            sudo mkdir -p /mnt/data/sqlserver
+            sudo chown -R 10001:0 /mnt/data/sqlserver
+            sudo chmod -R 770 /mnt/data/sqlserver
+          else
+            echo \"Le répertoire SQL Server existe déjà.\"
+          fi
+          exit" > script.sh
+
+          # Transférer le script dans minikube et l'exécuter
+          minikube ssh "bash -s" < script.sh
+
+
+
+      - name: 🏗 Installer ou mettre à jour SQL Server via Helm
+        run: |
+          cd k8s
+          if helm ls --all --short | grep -q "sqlserver"; then
+            echo "Mise à jour de SQL Server..."
+            helm upgrade sqlserver ./helm-sqlserver
+          else
+            echo "Installation de SQL Server..."
+            helm install sqlserver ./helm-sqlserver
+          fi
+
+      - name: 🔑 Se connecter à Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+      - name: 🐳 Build & Push des microservices
+        run: |
+          cd smart-meal-back
+
+          for service in items restaurant orders payment; do
+            echo "📦 Build et push du microservice $service"
+            docker build -t ${{ secrets.DOCKER_USERNAME }}/smart-meal-${service}-service -f smart-meal-${service}-service/Dockerfile .
+            docker tag ${{ secrets.DOCKER_USERNAME }}/smart-meal-${service}-service ${{ secrets.DOCKER_USERNAME }}/smart-meal-${service}-service:latest
+            docker push ${{ secrets.DOCKER_USERNAME }}/smart-meal-${service}-service:latest
+          done
+
+      - name: 🌐 Build & Push du frontend
+        run: |
+          cd smart-meal-front
+          echo "📦 Build et push du frontend"
+          docker build -t smart-meal-frontend-service .
+          docker tag smart-meal-frontend-service marcobalamon/smart-meal-frontend-service:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/smart-meal-frontend-service:latest
+
+
+      - name: 📡 Vérifier et installer Istio
+        run: |
+          if ! kubectl get svc -n istio-system | grep -q "istio-ingressgateway"; then
+            echo "Installation d'Istio..."
+            curl -L https://istio.io/downloadIstio | sh -
+            
+            # Extraire la version d'Istio téléchargée dynamiquement
+            ISTIO_VERSION=$(ls -d istio-* | head -n 1)
+
+            # Se déplacer dans le répertoire d'Istio et ajouter le binaire au PATH
+            cd $ISTIO_VERSION
+            export PATH=$PWD/bin:$PATH
+            
+            # Installer Istio avec un fichier de valeurs personnalisé
+            istioctl install --set profile=demo -f ../k8s/istio/istio-values.yaml -y
+            kubectl label namespace default istio-injection=enabled
+          else
+            echo "Istio est déjà installé."
+          fi
+
+      - name: ⛵ Déployer les Helm Charts
+        run: |
+          cd k8s
+          echo "🚀 Déploiement des Helm Charts..."
+          helm upgrade --install smart-meal-gateway ./helm-gateway
+          sleep 10
+          helm upgrade --install smart-meal-items-service ./helm-items-service
+          sleep 10
+          helm upgrade --install smart-meal-restaurant-service ./helm-restaurant-service
+          sleep 10
+          helm upgrade --install smart-meal-orders-service ./helm-orders-service
+          sleep 10
+          helm upgrade --install smart-meal-payment-service ./helm-payment-service
+          sleep 10
+          helm upgrade --install smart-meal-frontend-service ./helm-frontend-service

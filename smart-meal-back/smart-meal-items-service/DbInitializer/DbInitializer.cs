@@ -12,7 +12,11 @@ public static class DbInitializer
         {
             using (var connection = dbContext.CreateConnection())
             {
-                // Exécuter le script de vérification
+                // Exécuter le script de création de la base de données si elle n'existe pas
+                string createDatabaseScript = await File.ReadAllTextAsync("Scripts/CreateDatabase.sql");
+                await connection.ExecuteAsync(createDatabaseScript);
+
+                // Vérifier si la base de données est initialisée
                 string checkScript = await File.ReadAllTextAsync("Scripts/CheckDatabase.sql");
                 var result = await connection.ExecuteScalarAsync<int>(checkScript);
 

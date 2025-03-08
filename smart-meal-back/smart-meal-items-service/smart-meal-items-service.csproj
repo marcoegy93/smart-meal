@@ -35,6 +35,9 @@
 		<None Update="Scripts\DbInitializer.sql">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
+		<None Update="Scripts\CreateDatabase.sql">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
 
 </Project>
