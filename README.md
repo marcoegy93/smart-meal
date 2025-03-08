@@ -55,7 +55,6 @@ cd smart-meal
    cd $ISTIO_VERSION
    export PATH=$PWD/bin:$PATH
    istioctl install --set profile=demo -f ../k8s/istio/istio-values.yaml -y
-
    ```
 
 2. **Activer l'injection automatique des side-cars Istio** :
@@ -102,9 +101,9 @@ helm upgrade --install sqlserver ./helm-sqlserver
    cd smart-meal-back
 
    for service in items restaurant orders payment; do
-     docker build -t marcobalamon/smart-meal-${service}-service -f smart-meal-${service}-service/Dockerfile .
-     docker tag marcobalamon/smart-meal-${service}-service marcobalamon/smart-meal-${service}-service:latest
-     docker push marcobalamon/smart-meal-${service}-service:latest
+     docker build -t DOCKER_USERNAME/smart-meal-${service}-service -f smart-meal-${service}-service/Dockerfile .
+     docker tag DOCKER_USERNAME/smart-meal-${service}-service DOCKER_USERNAME/smart-meal-${service}-service:latest
+     docker push DOCKER_USERNAME/smart-meal-${service}-service:latest
    done
    ```
 
@@ -112,9 +111,9 @@ helm upgrade --install sqlserver ./helm-sqlserver
 
    ```bash
    cd ../smart-meal-front
-   docker build -t marcobalamon/smart-meal-frontend-service .
-   docker tag marcobalamon/smart-meal-frontend-service:latest
-   docker push marcobalamon/smart-meal-frontend-service:latest
+   docker build -t DOCKER_USERNAME/smart-meal-frontend-service .
+   docker tag DOCKER_USERNAME/smart-meal-frontend-service:latest
+   docker push DOCKER_USERNAME/smart-meal-frontend-service:latest
    ```
 
 ---
@@ -199,4 +198,4 @@ Si vous rencontrez des problèmes, essayez :
 
 ## 🎉 Félicitations !
 
-Votre application **Smart Meal** est maintenant déployée avec Kubernetes, Minikube et Helm. 🚀
+Votre application **Smart Meal** est maintenant déployée avec Kubernetes, Minikube et Helm. 🚀 
