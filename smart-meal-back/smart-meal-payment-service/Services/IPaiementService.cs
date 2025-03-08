@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using smart_meal_paiement_service.Models;
+using smart_meal_payment_service.Models;
 
-namespace smart_meal_paiement_service.Services;
+namespace smart_meal_payment_service.Services;
 
 public interface IPaiementService
 {

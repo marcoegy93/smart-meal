@@ -1,4 +1,4 @@
-﻿namespace smart_meal_paiement_service.Utils;
+﻿namespace smart_meal_payment_service.Utils;
 
 public class DatabaseOptions
 {

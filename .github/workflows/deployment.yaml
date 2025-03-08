@@ -38,8 +38,32 @@ jobs:
             wget https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.27.3/kubeseal-0.27.3-linux-amd64.tar.gz
             tar -xvzf kubeseal-0.27.3-linux-amd64.tar.gz kubeseal
             echo "${{ secrets.ACCOUNT_PASSWORD }}" | sudo -S install -m 755 kubeseal /usr/local/bin/kubeseal
+            rm -f kubeseal
           else
             echo "Kubeseal est déjà installé."
+          fi
+
+      - name: 📡 Vérifier et installer Istio
+        run: |
+          if ! kubectl get svc -n istio-system | grep -q "istio-ingressgateway"; then
+            echo "Installation d'Istio..."
+            curl -L https://istio.io/downloadIstio | sh -
+            
+            # Extraire la version d'Istio téléchargée dynamiquement
+            ISTIO_VERSION=$(ls -d istio-* | head -n 1)
+
+            # Se déplacer dans le répertoire d'Istio et ajouter le binaire au PATH
+            cd $ISTIO_VERSION
+            export PATH=$PWD/bin:$PATH
+            
+            # Installer Istio avec un fichier de valeurs personnalisé
+            istioctl install --set profile=demo -f ../k8s/istio/istio-values.yaml -y
+            kubectl label namespace default istio-injection=enabled
+
+            cd ..
+            rm -rf $ISTIO_VERSION
+          else
+            echo "Istio est déjà installé."
           fi
 
       - name: 🗄 Vérifier et préparer le stockage pour SQL Server
@@ -58,8 +82,6 @@ jobs:
 
           # Transférer le script dans minikube et l'exécuter
           minikube ssh "bash -s" < script.sh
-
-
 
       - name: 🏗 Installer ou mettre à jour SQL Server via Helm
         run: |
@@ -93,27 +115,6 @@ jobs:
           docker build -t smart-meal-frontend-service .
           docker tag smart-meal-frontend-service marcobalamon/smart-meal-frontend-service:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/smart-meal-frontend-service:latest
-
-
-      - name: 📡 Vérifier et installer Istio
-        run: |
-          if ! kubectl get svc -n istio-system | grep -q "istio-ingressgateway"; then
-            echo "Installation d'Istio..."
-            curl -L https://istio.io/downloadIstio | sh -
-            
-            # Extraire la version d'Istio téléchargée dynamiquement
-            ISTIO_VERSION=$(ls -d istio-* | head -n 1)
-
-            # Se déplacer dans le répertoire d'Istio et ajouter le binaire au PATH
-            cd $ISTIO_VERSION
-            export PATH=$PWD/bin:$PATH
-            
-            # Installer Istio avec un fichier de valeurs personnalisé
-            istioctl install --set profile=demo -f ../k8s/istio/istio-values.yaml -y
-            kubectl label namespace default istio-injection=enabled
-          else
-            echo "Istio est déjà installé."
-          fi
 
       - name: ⛵ Déployer les Helm Charts
         run: |

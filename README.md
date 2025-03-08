@@ -55,6 +55,8 @@ cd smart-meal
    cd $ISTIO_VERSION
    export PATH=$PWD/bin:$PATH
    istioctl install --set profile=demo -f ../k8s/istio/istio-values.yaml -y
+   cd ..
+   rm -rf $ISTIO_VERSION
    ```
 
 2. **Activer l'injection automatique des side-cars Istio** :
@@ -76,6 +78,7 @@ sudo ls -ld /mnt/data/sqlserver
 sudo mkdir -p /mnt/data/sqlserver  # Si le répertoire n'existe pas
 sudo chown -R 10001:0 /mnt/data/sqlserver
 sudo chmod -R 770 /mnt/data/sqlserver
+exit
 ```
 
 ### 📌 2️⃣ **Installer SQL Server avec Helm**
@@ -98,7 +101,7 @@ helm upgrade --install sqlserver ./helm-sqlserver
 2. **Build et push des microservices** :
 
    ```bash
-   cd smart-meal-back
+   cd ../smart-meal-back
 
    for service in items restaurant orders payment; do
      docker build -t DOCKER_USERNAME/smart-meal-${service}-service -f smart-meal-${service}-service/Dockerfile .
@@ -111,8 +114,8 @@ helm upgrade --install sqlserver ./helm-sqlserver
 
    ```bash
    cd ../smart-meal-front
-   docker build -t DOCKER_USERNAME/smart-meal-frontend-service .
-   docker tag DOCKER_USERNAME/smart-meal-frontend-service:latest
+   docker build -t smart-meal-frontend-service .
+   docker tag smart-meal-frontend-service:latest DOCKER_USERNAME/smart-meal-frontend-service:latest
    docker push DOCKER_USERNAME/smart-meal-frontend-service:latest
    ```
 
@@ -123,16 +126,27 @@ helm upgrade --install sqlserver ./helm-sqlserver
 1. **Installer la Gateway** :
 
    ```bash
-   cd k8s
+   cd ../k8s
    helm upgrade --install smart-meal-gateway ./helm-gateway
    ```
 
 2. **Installer les Microservices** :
 
+Voici les commandes séparées en quatre blocs distincts :  
+
    ```bash
    helm upgrade --install smart-meal-items-service ./helm-items-service
+   ```
+
+   ```bash
    helm upgrade --install smart-meal-restaurant-service ./helm-restaurant-service
+   ```
+
+   ```bash
    helm upgrade --install smart-meal-orders-service ./helm-orders-service
+   ```
+
+   ```bash
    helm upgrade --install smart-meal-payment-service ./helm-payment-service
    ```
 
@@ -161,7 +175,7 @@ helm upgrade --install sqlserver ./helm-sqlserver
 3. **Accéder à l'application** :
 
    ```bash
-   minikube service smart-meal-gateway --url
+   minikube service smart-meal-frontend-service --url
    ```
 
 ---

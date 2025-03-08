@@ -1,4 +1,4 @@
-﻿namespace smart_meal_paiement_service.Models;
+﻿namespace smart_meal_payment_service.Models;
 
 public class PaymentResponse
 {

@@ -10,12 +10,10 @@ public static class DbInitializer
     {
         try
         {
-            using (var connection = dbContext.CreateConnection())
-            {
-                // Exécuter le script de création de la base de données si elle n'existe pas
-                string createDatabaseScript = await File.ReadAllTextAsync("Scripts/CreateDatabase.sql");
-                await connection.ExecuteAsync(createDatabaseScript);
+            await CreateDatabase(dbContext);
 
+            using (var connection = dbContext.CreateConnection())
+            { 
                 // Vérifier si la base de données est initialisée
                 string checkScript = await File.ReadAllTextAsync("Scripts/CheckDatabase.sql");
                 var result = await connection.ExecuteScalarAsync<int>(checkScript);
@@ -47,6 +45,23 @@ public static class DbInitializer
         {
             Console.WriteLine($"Erreur lors de l'initialisation de la BDD: {ex.Message}");
             throw;
+        }
+    }
+
+    private static async Task CreateDatabase(DapperDBContext dbContext)
+    {
+        var connectionString =
+            "Server=192.168.49.2,31433;Database=master;User Id=sa;Password={DB_PASSWORD};TrustServerCertificate=True;";
+        var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD_SMART_MEAL");
+        if (!string.IsNullOrEmpty(dbPassword))
+        {
+            connectionString = connectionString.Replace("{DB_PASSWORD}", dbPassword);
+        }
+        using (var connection = dbContext.CreateConnection(connectionString))
+        {
+            // Exécuter le script de création de la base de données si elle n'existe pas
+            string createDatabaseScript = await File.ReadAllTextAsync("Scripts/CreateDatabase.sql");
+            await connection.ExecuteAsync(createDatabaseScript);
         }
     }
 }

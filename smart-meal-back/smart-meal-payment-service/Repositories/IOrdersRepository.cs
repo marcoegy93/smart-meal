@@ -1,6 +1,6 @@
-﻿using smart_meal_paiement_service.Models;
+﻿using smart_meal_payment_service.Models;
 
-namespace smart_meal_paiement_service.Repositories;
+namespace smart_meal_payment_service.Repositories;
 
 public interface IOrdersRepository
 {

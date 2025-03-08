@@ -1,6 +1,6 @@
-﻿using smart_meal_paiement_service.Utils;
+﻿using smart_meal_payment_service.Utils;
 
-namespace smart_meal_paiement_service.DbInitializer;
+namespace smart_meal_payment_service.DbInitializer;
 
 public static class ApplicationExtensions
 {
@@ -8,6 +8,6 @@ public static class ApplicationExtensions
     {
         using var scope = app.Services.CreateScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<DapperDBContext>();
-        await DbInitializer.InitializeDatabase(dbContext);
+        await smart_meal_payment_service.DbInitializer.DbInitializer.InitializeDatabase(dbContext);
     }
 }

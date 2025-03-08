@@ -1,4 +1,4 @@
-﻿namespace smart_meal_paiement_service.Enums;
+﻿namespace smart_meal_payment_service.Enums;
 
 public enum PaymentType
 {

@@ -1,8 +1,8 @@
 ﻿using Dapper;
-using smart_meal_paiement_service.Models;
-using smart_meal_paiement_service.Utils;
+using smart_meal_payment_service.Models;
+using smart_meal_payment_service.Utils;
 
-namespace smart_meal_paiement_service.Repositories;
+namespace smart_meal_payment_service.Repositories;
 
 public class OrdersRepository : IOrdersRepository
 {

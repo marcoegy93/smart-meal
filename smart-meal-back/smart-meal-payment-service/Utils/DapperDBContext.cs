@@ -2,7 +2,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Options;
 using System.Data;
 
-namespace smart_meal_paiement_service.Utils;
+namespace smart_meal_payment_service.Utils;
 
 public class DapperDBContext
 {
@@ -14,4 +14,6 @@ public class DapperDBContext
     }
 
     public IDbConnection CreateConnection() => new SqlConnection(_connectionString);
+    
+    public IDbConnection CreateConnection(string connectionString) => new SqlConnection(connectionString);
 }

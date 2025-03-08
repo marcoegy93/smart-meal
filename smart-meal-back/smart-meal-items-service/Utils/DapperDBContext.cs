@@ -15,4 +15,6 @@ public class DapperDBContext
     }
 
     public IDbConnection CreateConnection() => new SqlConnection(_connectionString);
+    
+    public IDbConnection CreateConnection(string connectionString) => new SqlConnection(connectionString);
 }

@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using smart_meal_paiement_service.Models;
-using smart_meal_paiement_service.Services;
-using smart_meal_paiement_service.Utils;
+using smart_meal_payment_service.Models;
+using smart_meal_payment_service.Services;
+using smart_meal_payment_service.Utils;
 using System.Data;
 
-namespace smart_meal_paiement_service.Controllers;
+namespace smart_meal_payment_service.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

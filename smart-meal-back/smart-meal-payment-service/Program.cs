@@ -1,15 +1,15 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using smart_meal_paiement_service.Repositories;
-using smart_meal_paiement_service.Services;
-using smart_meal_paiement_service.Utils;
+using smart_meal_payment_service.Repositories;
+using smart_meal_payment_service.Services;
+using smart_meal_payment_service.Utils;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Converters;
 using System.Text;
 using DotNetEnv;
 using Newtonsoft.Json;
-using smart_meal_paiement_service.DbInitializer;
+using smart_meal_payment_service.DbInitializer;
 
 Env.Load(Directory.GetCurrentDirectory() + "/../.env");
 

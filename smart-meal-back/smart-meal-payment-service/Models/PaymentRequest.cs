@@ -1,6 +1,6 @@
-﻿using smart_meal_paiement_service.Enums;
+﻿using smart_meal_payment_service.Enums;
 
-namespace smart_meal_paiement_service.Models;
+namespace smart_meal_payment_service.Models;
 
 public class PaymentRequest
 {

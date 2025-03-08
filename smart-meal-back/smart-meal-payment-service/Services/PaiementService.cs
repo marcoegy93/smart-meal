@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using smart_meal_paiement_service.Repositories;
-using smart_meal_paiement_service.Enums;
-using smart_meal_paiement_service.Models;
+using smart_meal_payment_service.Repositories;
+using smart_meal_payment_service.Enums;
+using smart_meal_payment_service.Models;
 using Stripe;
 
-namespace smart_meal_paiement_service.Services;
+namespace smart_meal_payment_service.Services;
 
 public class PaiementService: IPaiementService
 {
