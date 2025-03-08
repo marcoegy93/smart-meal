@@ -1,0 +1,31 @@
+sqlserver:
+  name: sqlserver
+  replicas: 1
+  image: mcr.microsoft.com/mssql/server:2019-latest
+  port: 1433
+
+secret:
+  name: sqlserver-secret
+  namespace: default
+  encryptedPassword: AgArTlBHbG1QMd3MFZp/U06EG8uVMRCzC4zw3Niv0n0dXFaEJzkI9hck5CTXau3RFEfLM51fV1Knr/2/e5sZXRmW4Az6m0bgCnvFjOC5g1LOT+lF0Gu7mu8VAHy079+2uGsXEiBdJA9eLaeWwWEqPZmvyLH4xrMgVlP2Na3r19wN9Func4dhHFwjoVVmwrVD6fHIbcexAaq8pREN4y1FKOrj+3P+DCnwSUJYva/TrbW+TpOcLDPZ7xZByMZO1B36vQR6t0APpBGN2WC4dbfESe1LbutEAocUfpfTekydaPle/2JxGc35WuYWOBWZNo0dvZLKf3GjocPPyciW4+iy+PFS4+HKZ+2gwXgqf7vXVxOLcZlSwIqsHHJs3Uc4O/KF/MFC3dMKRdalGMb3n46qMNp1W6Bpbl6s9wwGKIwWLgU23H15KkA82tix5dcQ8UOslNbzSkDwoa25H8oA2pGicG96MayvYGgfd6kP57f3Mt4vOCJE8NPsQDh4aPE6LM62tawyJIobBjiAAlsL758cxMTf3kcGu7RcSS3ICMV0/Ef3NHxUgicdlgkFibEeXHuudZPc1l2qBf95b9tzM2GluuACOe725bN2l2ASavuj5ZRxqCm96tFC5ner72JtNKjuhNN4TvIYw8+9m6JEWyzs4jTtu2/NizUA+iScnlyXBnapjVM1rhxM+mmMyRJ7pv/uPuwTz61HhVSaTzvr1XlIWEw=
+
+volume:
+  name: sqlserver-persistent-storage
+  mountPath: /var/opt/mssql
+  claimName: sqlserver-pv-claim
+
+service:
+  name: sqlserver
+  type: NodePort
+  port: 1433
+  targetPort: 1433
+  nodePort: 31433
+
+storage:
+  pvName: sqlserver-pv-volume
+  pvcName: sqlserver-pv-claim
+  type: local
+  class: manual
+  size: 20Gi
+  accessMode: ReadWriteOnce
+  path: "/mnt/data/sqlserver"

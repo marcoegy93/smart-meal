@@ -1,0 +1,6 @@
+apiVersion: v2
+name: smart-meal-frontend-service
+description: Helm chart for deploying Smart Meal Frontend Service
+type: application
+version: 1.0.0
+appVersion: "latest"

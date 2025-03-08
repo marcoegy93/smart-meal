@@ -1,0 +1,6 @@
+apiVersion: v2
+name: smart-meal-orders-service
+description: Helm chart for deploying Smart Meal Orders Service
+type: application
+version: 1.0.0
+appVersion: "latest"

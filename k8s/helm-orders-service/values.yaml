@@ -1,0 +1,26 @@
+image:
+  repository: marcobalamon/smart-meal-orders-service
+  tag: latest
+  pullPolicy: Always
+
+service:
+  name: smart-meal-orders-service
+  port: 7175
+  type: NodePort
+  nodePort: 30004
+
+deployment:
+  name: smart-meal-orders-service
+  replicas: 1
+
+secrets:
+  name: smart-meal-secrets
+
+virtualService:
+  name: smart-meal-orders-virtualservice
+  gateway: smart-meal-api-gateway
+  matchUriPrefix: /api/Orders
+  matchUriPrefixSwagger: /orders-service/swagger
+  rewriteUriPrefixSwagger: /swagger
+  routeDestinationPort: 7175
+  routeDestinationHost: smart-meal-orders-service.default.svc.cluster.local

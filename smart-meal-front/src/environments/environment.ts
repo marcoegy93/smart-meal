@@ -9,5 +9,5 @@ export const environment = {
     measurementId: process.env["FIREBASE_MEASUREMENT_ID"] ?? ''
   },
   production: false,
-  apiUrl: 'http://192.168.49.2:30002/api'
+  apiUrl: 'http://192.168.49.2:30259/api'
 };

@@ -1,0 +1,7 @@
+gateway:
+  name: smart-meal-api-gateway
+  selector:
+    istio: ingressgateway
+  port: 80
+  nameServer: http
+  protocol: HTTP

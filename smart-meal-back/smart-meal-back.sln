@@ -3,9 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "smart-meal-back", "smart-meal-back\smart-meal-back.csproj", "{C70762A0-1653-47F1-8BF0-33C135F0BA23}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "smart-meal-items-service", "smart-meal-items-service\smart-meal-items-service.csproj", "{0FB1CB88-2CCB-4B6A-A0A0-2EAEBFABC4AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "smart-meal-back-test", "smart-meal-back-test\smart-meal-back-test.csproj", "{EAE17A13-E99F-4E14-ACAA-A0A909E9504A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "smart-meal-orders-service", "smart-meal-orders-service\smart-meal-orders-service.csproj", "{0FCAA742-9F6B-4F85-B118-996D112C8A6B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "smart-meal-payment-service", "smart-meal-payment-service\smart-meal-payment-service.csproj", "{97E78C95-A3EF-4EC7-BFA9-16F80056B6D5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "smart-meal-restaurant-service", "smart-meal-restaurant-service\smart-meal-restaurant-service.csproj", "{80691758-F1FF-4012-A663-62009A140E01}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +17,22 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C70762A0-1653-47F1-8BF0-33C135F0BA23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C70762A0-1653-47F1-8BF0-33C135F0BA23}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C70762A0-1653-47F1-8BF0-33C135F0BA23}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C70762A0-1653-47F1-8BF0-33C135F0BA23}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EAE17A13-E99F-4E14-ACAA-A0A909E9504A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EAE17A13-E99F-4E14-ACAA-A0A909E9504A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EAE17A13-E99F-4E14-ACAA-A0A909E9504A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EAE17A13-E99F-4E14-ACAA-A0A909E9504A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FB1CB88-2CCB-4B6A-A0A0-2EAEBFABC4AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FB1CB88-2CCB-4B6A-A0A0-2EAEBFABC4AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FB1CB88-2CCB-4B6A-A0A0-2EAEBFABC4AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FB1CB88-2CCB-4B6A-A0A0-2EAEBFABC4AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FCAA742-9F6B-4F85-B118-996D112C8A6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FCAA742-9F6B-4F85-B118-996D112C8A6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FCAA742-9F6B-4F85-B118-996D112C8A6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FCAA742-9F6B-4F85-B118-996D112C8A6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97E78C95-A3EF-4EC7-BFA9-16F80056B6D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97E78C95-A3EF-4EC7-BFA9-16F80056B6D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97E78C95-A3EF-4EC7-BFA9-16F80056B6D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97E78C95-A3EF-4EC7-BFA9-16F80056B6D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80691758-F1FF-4012-A663-62009A140E01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80691758-F1FF-4012-A663-62009A140E01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80691758-F1FF-4012-A663-62009A140E01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80691758-F1FF-4012-A663-62009A140E01}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

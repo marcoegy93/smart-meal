@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.sqlserver.name }}
+spec:
+  replicas: {{ .Values.sqlserver.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.sqlserver.name }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.sqlserver.name }}
+    spec:
+      containers:
+        - name: {{ .Values.sqlserver.name }}
+          image: {{ .Values.sqlserver.image }}
+          ports:
+            - containerPort: {{ .Values.sqlserver.port }}
+              name: {{ .Values.sqlserver.name }}
+          env:
+            - name: ACCEPT_EULA
+              value: "Y"
+            - name: SA_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secret.name }}
+                  key: SA_PASSWORD
+          volumeMounts:
+            - name: {{ .Values.volume.name }}
+              mountPath: {{ .Values.volume.mountPath }}
+      volumes:
+        - name: {{ .Values.volume.name }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.volume.claimName }}

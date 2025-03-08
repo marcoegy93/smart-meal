@@ -16,14 +16,14 @@ export class RestaurantsData extends Restaurants {
   }
 
  getRestaurant(restaurantId: string): Observable<Restaurant> {
-  const path = `restaurant/${restaurantId}`;
+  const path = `Restaurant/${restaurantId}`;
   const promise = this.provider.get<Restaurant>(path);
   return from(promise);
 }
 
 
   async getAllRestaurants(): Promise<Restaurant[]> {
-    const path = "restaurant/getAllRestaurants";
+    const path = "Restaurant/getAllRestaurants";
     try {
       return await this.provider.get<Restaurant[]>(path);
     }catch (error) {
@@ -34,7 +34,7 @@ export class RestaurantsData extends Restaurants {
 
   async login(email: string, password: string): Promise<UserToken> {
     try {
-      const path = "restaurant/Authentification";
+      const path = "Restaurant/Authentification";
       return await this.provider.post<UserToken>(path, { email, password });
     } catch (e) {
       throw e;
@@ -43,7 +43,7 @@ export class RestaurantsData extends Restaurants {
 
   async createOrUpdateRestaurant(restaurantToCreate: Restaurant): Promise<void> {
     try {
-      const path = "restaurant";
+      const path = "Restaurant";
       await this.provider.patch<any>(path, restaurantToCreate);
     }catch (e) {
       throw e

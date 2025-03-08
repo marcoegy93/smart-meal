@@ -1,0 +1,26 @@
+image:
+  repository: marcobalamon/smart-meal-payment-service
+  tag: latest
+  pullPolicy: Always
+
+service:
+  name: smart-meal-payment-service
+  port: 7176
+  type: NodePort
+  nodePort: 30005
+
+deployment:
+  name: smart-meal-payment-service
+  replicas: 1
+
+secrets:
+  name: smart-meal-secrets
+
+virtualService:
+  name: smart-meal-payment-virtualservice
+  gateway: smart-meal-api-gateway
+  matchUriPrefix: /api/Paiement
+  matchUriPrefixSwagger: /payment-service/swagger
+  rewriteUriPrefixSwagger: /swagger
+  routeDestinationPort: 7176
+  routeDestinationHost: smart-meal-payment-service.default.svc.cluster.local
