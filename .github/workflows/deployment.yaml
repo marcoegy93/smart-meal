@@ -162,6 +162,7 @@ jobs:
         run: |
           cd k8s
           echo "🚀 Deploying Helm Charts..."
+          helm upgrade --install helm-rbac ./helm-rbac
           helm upgrade --install smart-meal-gateway ./helm-gateway
           helm upgrade --install helm-certificate ./helm-certificate
           helm upgrade --install helm-mtls ./helm-mtls

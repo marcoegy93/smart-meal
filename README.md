@@ -190,13 +190,14 @@ Trivy is a vulnerability scanner for Docker images. Here’s how to install and 
 
 ## 🚢 Deploy Microservices and Frontend
 
-1. **Install the Gateway and certificates**:
+1. **Install the Gateway, certificates and RBAC**:
 
    ```bash
    cd ../k8s
    helm upgrade --install smart-meal-gateway ./helm-gateway
    helm upgrade --install helm-certificate ./helm-certificate
    helm upgrade --install helm-mtls ./helm-mtls
+   helm upgrade --install helm-rbac ./helm-rbac
    ```
 
 2. **Install the Microservices**:
