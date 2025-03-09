@@ -10,124 +10,211 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - name: 🛠 Checkout du code
+      - name: 🛠 Checkout code
         uses: actions/checkout@v4
 
-      - name: 🚀 Vérifier et démarrer Minikube
+      - name: 🔍 Check if Minikube is installed
+        run: |
+          if ! command -v minikube &> /dev/null; then
+            echo "Minikube is not installed. Installing..."
+            curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+            chmod +x minikube
+            sudo mv minikube /usr/local/bin/
+          else
+            echo "Minikube is already installed."
+          fi
+
+      - name: 🚀 Check and start Minikube
         run: |
           if ! minikube status | grep -q "Running"; then
-            echo "Minikube non démarré. Démarrage..."
+            echo "Minikube is not running. Starting..."
             minikube start --driver=docker
           else
-            echo "Minikube est déjà en cours d'exécution."
+            echo "Minikube is already running."
           fi
 
-      - name: 🔐 Vérifier et installer Sealed Secrets Controller
+      - name: 🔐 Check and install Sealed Secrets Controller
         run: |
           if ! kubectl get pods -n kube-system | grep -q "sealed-secrets-controller"; then
-            echo "Installation de Sealed Secrets Controller..."
+            echo "Installing Sealed Secrets Controller..."
             kubectl apply -f https://github.com/bitnami-labs/sealed-secrets/releases/latest/download/controller.yaml
           else
-            echo "Sealed Secrets Controller est déjà installé."
+            echo "Sealed Secrets Controller is already installed."
           fi
 
-      - name: 🔑 Vérifier et installer Kubeseal
+      - name: 🔑 Check and install Kubeseal
         run: |
           if ! command -v kubeseal &> /dev/null; then
-            echo "Installation de Kubeseal..."
+            echo "Installing Kubeseal..."
             wget https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.27.3/kubeseal-0.27.3-linux-amd64.tar.gz
             tar -xvzf kubeseal-0.27.3-linux-amd64.tar.gz kubeseal
             echo "${{ secrets.ACCOUNT_PASSWORD }}" | sudo -S install -m 755 kubeseal /usr/local/bin/kubeseal
             rm -f kubeseal
           else
-            echo "Kubeseal est déjà installé."
+            echo "Kubeseal is already installed."
           fi
 
-      - name: 📡 Vérifier et installer Istio
+      - name: 📡 Check and install Istio
         run: |
           if ! kubectl get svc -n istio-system | grep -q "istio-ingressgateway"; then
-            echo "Installation d'Istio..."
+            echo "Installing Istio..."
             curl -L https://istio.io/downloadIstio | sh -
             
-            # Extraire la version d'Istio téléchargée dynamiquement
+            # Dynamically extract the downloaded Istio version
             ISTIO_VERSION=$(ls -d istio-* | head -n 1)
 
-            # Se déplacer dans le répertoire d'Istio et ajouter le binaire au PATH
+            # Move into the Istio directory and add binary to PATH
             cd $ISTIO_VERSION
             export PATH=$PWD/bin:$PATH
             
-            # Installer Istio avec un fichier de valeurs personnalisé
+            # Install Istio with a custom values file
             istioctl install --set profile=demo -f ../k8s/istio/istio-values.yaml -y
             kubectl label namespace default istio-injection=enabled
 
             cd ..
             rm -rf $ISTIO_VERSION
           else
-            echo "Istio est déjà installé."
+            echo "Istio is already installed."
           fi
 
-      - name: 🗄 Vérifier et préparer le stockage pour SQL Server
+      - name: 🗄 Check and prepare storage for SQL Server
         run: |
-          # Créer un fichier de script bash à exécuter dans minikube
+          # Create a bash script to execute inside Minikube
           echo "
           if [ ! -d \"/mnt/data/sqlserver\" ]; then
-            echo \"Création du répertoire SQL Server...\"
+            echo \"Creating SQL Server directory...\"
             sudo mkdir -p /mnt/data/sqlserver
             sudo chown -R 10001:0 /mnt/data/sqlserver
             sudo chmod -R 770 /mnt/data/sqlserver
           else
-            echo \"Le répertoire SQL Server existe déjà.\"
+            echo \"SQL Server directory already exists.\"
           fi
           exit" > script.sh
 
-          # Transférer le script dans minikube et l'exécuter
+          # Transfer the script to Minikube and execute it
           minikube ssh "bash -s" < script.sh
 
-      - name: 🏗 Installer ou mettre à jour SQL Server via Helm
+      - name: 🏗 Install or update SQL Server via Helm
         run: |
           cd k8s
           if helm ls --all --short | grep -q "sqlserver"; then
-            echo "Mise à jour de SQL Server..."
+            echo "Updating SQL Server..."
             helm upgrade sqlserver ./helm-sqlserver
           else
-            echo "Installation de SQL Server..."
+            echo "Installing SQL Server..."
             helm install sqlserver ./helm-sqlserver
           fi
 
-      - name: 🔑 Se connecter à Docker Hub
-        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+      - name: 🔑 Log in to Docker Hub
+        run: echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-      - name: 🐳 Build & Push des microservices
+      - name: 🔍 Scan Docker images for vulnerabilities with Trivy
+        run: |
+          # Install Trivy if necessary
+          if ! command -v trivy &> /dev/null; then
+            echo "Installing Trivy..."
+            echo "${{ secrets.ACCOUNT_PASSWORD }}" | sudo -S apt-get update && sudo -S apt-get install -y apt-transport-https
+            curl -sfL https://github.com/aquasecurity/trivy/releases/download/v0.29.1/trivy_0.29.1_Linux-64bit.deb -o trivy.deb
+            echo "${{ secrets.ACCOUNT_PASSWORD }}" | sudo -S dpkg -i trivy.deb
+            rm trivy.deb
+          else
+            echo "Trivy is already installed."
+          fi
+
+          # Scan Docker images for vulnerabilities
+          for service in items restaurant orders payment; do
+            echo "🔍 Scanning vulnerabilities for $service service image"
+            trivy image ${{ secrets.DOCKER_USERNAME }}/smart-meal-${service}-service:latest
+          done
+
+          echo "🔍 Scanning vulnerabilities for the frontend"
+          trivy image smart-meal-frontend-service:latest
+
+      - name: 🐳 Build & Push microservices
         run: |
           cd smart-meal-back
 
           for service in items restaurant orders payment; do
-            echo "📦 Build et push du microservice $service"
+            echo "📦 Building and pushing microservice $service"
             docker build -t ${{ secrets.DOCKER_USERNAME }}/smart-meal-${service}-service -f smart-meal-${service}-service/Dockerfile .
             docker tag ${{ secrets.DOCKER_USERNAME }}/smart-meal-${service}-service ${{ secrets.DOCKER_USERNAME }}/smart-meal-${service}-service:latest
             docker push ${{ secrets.DOCKER_USERNAME }}/smart-meal-${service}-service:latest
           done
 
-      - name: 🌐 Build & Push du frontend
+      - name: 🌐 Build & Push frontend
         run: |
           cd smart-meal-front
-          echo "📦 Build et push du frontend"
+          echo "📦 Building and pushing frontend"
           docker build -t smart-meal-frontend-service .
-          docker tag smart-meal-frontend-service marcobalamon/smart-meal-frontend-service:latest
+          docker tag smart-meal-frontend-service ${{ secrets.DOCKER_USERNAME }}/smart-meal-frontend-service:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/smart-meal-frontend-service:latest
 
-      - name: ⛵ Déployer les Helm Charts
+      - name: 🔍 Check domain name smart-meal.local in /etc/hosts
+        run: |
+          if ! grep -q "smart-meal.local" /etc/hosts; then
+            echo "Adding smart-meal.local to /etc/hosts"
+            echo "${{ secrets.ACCOUNT_PASSWORD }}" | sudo -S bash -c 'echo "192.168.49.2 smart-meal.local" >> /etc/hosts'
+          else
+            echo "smart-meal.local is already present in /etc/hosts."
+          fi
+
+      - name: ⛵ Deploy Helm Charts
         run: |
           cd k8s
-          echo "🚀 Déploiement des Helm Charts..."
+          echo "🚀 Deploying Helm Charts..."
           helm upgrade --install smart-meal-gateway ./helm-gateway
-          sleep 10
+          helm upgrade --install helm-certificate ./helm-certificate
+          helm upgrade --install helm-mtls ./helm-mtls
           helm upgrade --install smart-meal-items-service ./helm-items-service
-          sleep 10
           helm upgrade --install smart-meal-restaurant-service ./helm-restaurant-service
-          sleep 10
           helm upgrade --install smart-meal-orders-service ./helm-orders-service
-          sleep 10
           helm upgrade --install smart-meal-payment-service ./helm-payment-service
-          sleep 10
           helm upgrade --install smart-meal-frontend-service ./helm-frontend-service
+
+      - name: 🔄 Create monitoring namespace if necessary
+        run: kubectl create namespace monitoring || echo "Monitoring namespace already exists"
+
+      - name: 🔄 Add Prometheus repository if necessary
+        run: helm repo add prometheus-community https://prometheus-community.github.io/helm-charts || echo "Prometheus repository is already added"
+
+      - name: 🔄 Install Prometheus if necessary
+        run: |
+          if ! helm ls --namespace monitoring | grep -q "prometheus"; then
+            echo "Installing Prometheus..."
+            helm install prometheus prometheus-community/prometheus --namespace monitoring -f ./k8s/monitoring/custom-values-prometheus.yaml
+          else
+            echo "Prometheus is already installed."
+          fi
+
+      - name: 🔄 Add Grafana repository if necessary
+        run: helm repo add grafana https://grafana.github.io/helm-charts || echo "Grafana repository is already added"
+
+      - name: 🔄 Install Grafana if necessary
+        run: |
+          if ! helm ls --namespace monitoring | grep -q "grafana"; then
+            echo "Installing Grafana..."
+            helm install grafana grafana/grafana --namespace monitoring --set adminPassword=${{ secrets.GRAFANA_PASSWORD }} -f ./k8s/monitoring/custom-values-grafana.yaml
+          else
+            echo "Grafana is already installed."
+          fi
+
+      - name: 🔄 Update Prometheus with alertmanager-config.yaml
+        run: |
+          echo "Updating Prometheus with Alertmanager configuration file..."
+          sed -i "s/auth_password: 'PASSWORD'/auth_password: '${{ secrets.EMAIL_PASSWORD }}'/g" ./k8s/monitoring/alertmanager-config.yaml
+          helm upgrade --reuse-values -f ./k8s/monitoring/alertmanager-config.yaml prometheus prometheus-community/prometheus -n monitoring
+
+      - name: 🔄 Install Loki and Promtail if necessary
+        run: |
+          if ! helm ls --namespace monitoring | grep -q "loki"; then
+            echo "Installing Loki..."
+            helm install loki grafana/loki -f ./k8s/monitoring/grafana-loki-values.yaml -n monitoring
+          else
+            echo "Loki is already installed."
+          fi
+          if ! helm ls --namespace monitoring | grep -q "promtail"; then
+            echo "Installing Promtail..."
+            helm install promtail grafana/promtail -n monitoring
+          else
+            echo "Promtail is already installed."
+          fi

@@ -1,0 +1,4 @@
+apiVersion: v2
+name: helm-rbac-chart
+description: A Helm chart to create RBAC resources in Kubernetes
+version: 1.0.0

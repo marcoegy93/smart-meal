@@ -1,0 +1,4 @@
+mtls:
+  mode: STRICT
+  namespaces:
+    - default

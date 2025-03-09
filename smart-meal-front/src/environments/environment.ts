@@ -9,5 +9,5 @@ export const environment = {
     measurementId: process.env['FIREBASE_MEASUREMENT_ID']
   },
   production: false,
-  apiUrl: 'http://192.168.49.2:30259/api'
+  apiUrl: 'https://smart-meal.local:30260/api'
 };

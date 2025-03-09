@@ -1,24 +1,30 @@
-# Smart Meal - Documentation d'installation
-
-Ce dépôt contient le projet **Smart Meal**, une application moderne basée sur des microservices utilisant Docker, Kubernetes, Helm, Istio et divers outils DevOps. Ce guide vous aidera à cloner, installer et déployer l'application sur votre machine locale avec **Minikube**.
+Voici la traduction complète du README en anglais :  
 
 ---
 
-## 🛠️ Prérequis
+# Smart Meal - Installation Documentation
 
-Avant de lancer l'application, assurez-vous d'avoir installé les outils suivants :
-
-- **Docker** : Installez Docker depuis [ici](https://www.docker.com/get-started).
-- **Kubernetes et Minikube** : Installez Minikube en suivant [cette documentation](https://minikube.sigs.k8s.io/docs/).
-- **Helm** : Installez Helm depuis [Helm.sh](https://helm.sh/).
-- **.NET 8 SDK** : Téléchargez le SDK .NET 8 depuis [Microsoft](https://dotnet.microsoft.com/download/dotnet).
-- **Node.js 20+** : Téléchargez Node.js depuis [Node.js](https://nodejs.org/).
+This repository contains the **Smart Meal** project, a modern application based on microservices using **Docker, Kubernetes, Helm, Istio, and various DevOps tools**.  
+This guide will help you clone, install, and deploy the application on your local machine with **Minikube**.
 
 ---
 
-## 📦 Cloner le dépôt
+## 🛠️ Prerequisites
 
-Clonez le dépôt GitHub et accédez au dossier du projet :
+Before running the application, make sure you have installed the following tools:
+
+- **Docker**: Install Docker from [here](https://www.docker.com/get-started).
+- **Kubernetes and Minikube**: Install Minikube following the steps below.
+- **Helm**: Install Helm from [Helm.sh](https://helm.sh/).
+- **.NET 8 SDK**: Download the .NET 8 SDK from [Microsoft](https://dotnet.microsoft.com/download/dotnet).
+- **Node.js 20+**: Download Node.js from [Node.js](https://nodejs.org/).
+- **Trivy**: A vulnerability scanner for Docker images. You can install it with the instructions below.
+
+---
+
+## 📦 Clone the repository
+
+Clone the GitHub repository and navigate to the project folder:
 
 ```bash
 git clone https://github.com/marcoegy93/smart-meal.git
@@ -27,15 +33,49 @@ cd smart-meal
 
 ---
 
-## 🔐 Installer Sealed Secrets sur Kubernetes
+## 🚀 Install Minikube on Linux
 
-1. **Installer le contrôleur Sealed Secrets** :
+On Linux, you can download Minikube using the following command:
+
+```bash
+curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+sudo chmod +x minikube
+sudo mv minikube /usr/local/bin/
+```
+
+### 4. **Verify Minikube installation**
+
+After installing Minikube, you can verify that the installation was successful by running:
+
+```bash
+minikube version
+```
+
+This should display the installed Minikube version.
+
+---
+
+## 🚀 Start Minikube
+
+Once Minikube is installed, you can start a local Kubernetes cluster. Run the following command to start Minikube with Docker as the driver:
+
+```bash
+minikube start --driver=docker
+```
+
+This will start a local Kubernetes cluster in a Docker virtual machine on your machine.
+
+---
+
+## 🔐 Install Sealed Secrets on Kubernetes
+
+1. **Install the Sealed Secrets controller**:
 
    ```bash
    kubectl apply -f https://github.com/bitnami-labs/sealed-secrets/releases/latest/download/controller.yaml
    ```
 
-2. **Télécharger et installer `kubeseal`** :
+2. **Download and install `kubeseal`**:
 
    ```bash
    wget https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.27.3/kubeseal-0.27.3-linux-amd64.tar.gz
@@ -45,9 +85,9 @@ cd smart-meal
 
 ---
 
-## 📡 Installer Istio (Service Mesh)
+## 📡 Install Istio (Service Mesh)
 
-1. **Télécharger et installer Istio** :
+1. **Download and install Istio**:
 
    ```bash
    curl -L https://istio.io/downloadIstio | sh -
@@ -59,7 +99,7 @@ cd smart-meal
    rm -rf $ISTIO_VERSION
    ```
 
-2. **Activer l'injection automatique des side-cars Istio** :
+2. **Enable automatic Istio sidecar injection**:
 
    ```bash
    kubectl label namespace default istio-injection=enabled
@@ -67,21 +107,20 @@ cd smart-meal
 
 ---
 
-## 🏗️ Installation de la Base de Données SQL Server
+## 🏗️ Install the SQL Server Database
 
-### 📌 1️⃣ **Configurer le stockage de Minikube**
-Assurez-vous que le répertoire de stockage SQL Server est bien configuré :
+### 📌 1️⃣ **Configure Minikube storage**
+Ensure the SQL Server storage directory is properly configured:
 
 ```bash
 minikube ssh
-sudo ls -ld /mnt/data/sqlserver
-sudo mkdir -p /mnt/data/sqlserver  # Si le répertoire n'existe pas
+sudo mkdir -p /mnt/data/sqlserver
 sudo chown -R 10001:0 /mnt/data/sqlserver
 sudo chmod -R 770 /mnt/data/sqlserver
 exit
 ```
 
-### 📌 2️⃣ **Installer SQL Server avec Helm**
+### 📌 2️⃣ **Install SQL Server with Helm**
 
 ```bash
 cd k8s
@@ -90,15 +129,15 @@ helm upgrade --install sqlserver ./helm-sqlserver
 
 ---
 
-## 🛠️ Build et Push des Images Docker
+## 🛠️ Build and Push Docker Images
 
-1. **Se connecter à Docker Hub** :
+1. **Log in to Docker Hub**:
 
    ```bash
    docker login
    ```
 
-2. **Build et push des microservices** :
+2. **Build and push microservices**:
 
    ```bash
    cd ../smart-meal-back
@@ -110,7 +149,7 @@ helm upgrade --install sqlserver ./helm-sqlserver
    done
    ```
 
-3. **Build et push du frontend** :
+3. **Build and push the frontend**:
 
    ```bash
    cd ../smart-meal-front
@@ -121,36 +160,55 @@ helm upgrade --install sqlserver ./helm-sqlserver
 
 ---
 
-## 🚢 Déploiement des Microservices et du Frontend
+## 🔍 Scan Docker Images for Vulnerabilities with **Trivy**
 
-1. **Installer la Gateway** :
+Trivy is a vulnerability scanner for Docker images. Here’s how to install and use it:
+
+### Install Trivy on your machine
+
+1. **Download and install Trivy on Linux**:
+
+   ```bash
+   sudo apt-get update
+   sudo apt-get install -y apt-transport-https
+   curl -sfL https://github.com/aquasecurity/trivy/releases/download/v0.29.1/trivy_0.29.1_Linux-64bit.deb -o trivy.deb
+   sudo dpkg -i trivy.deb
+   rm trivy.deb
+   ```
+
+2. **Scan Docker images for vulnerabilities**:
+
+   ```bash
+   trivy image DOCKER_USERNAME/smart-meal-items-service:latest
+   trivy image DOCKER_USERNAME/smart-meal-restaurant-service:latest
+   trivy image DOCKER_USERNAME/smart-meal-orders-service:latest
+   trivy image DOCKER_USERNAME/smart-meal-payment-service:latest
+   trivy image smart-meal-frontend-service:latest
+   ```
+
+---
+
+## 🚢 Deploy Microservices and Frontend
+
+1. **Install the Gateway and certificates**:
 
    ```bash
    cd ../k8s
    helm upgrade --install smart-meal-gateway ./helm-gateway
+   helm upgrade --install helm-certificate ./helm-certificate
+   helm upgrade --install helm-mtls ./helm-mtls
    ```
 
-2. **Installer les Microservices** :
-
-Voici les commandes séparées en quatre blocs distincts :  
+2. **Install the Microservices**:
 
    ```bash
    helm upgrade --install smart-meal-items-service ./helm-items-service
-   ```
-
-   ```bash
    helm upgrade --install smart-meal-restaurant-service ./helm-restaurant-service
-   ```
-
-   ```bash
    helm upgrade --install smart-meal-orders-service ./helm-orders-service
-   ```
-
-   ```bash
    helm upgrade --install smart-meal-payment-service ./helm-payment-service
    ```
 
-3. **Installer le Frontend** :
+3. **Install the Frontend**:
 
    ```bash
    helm upgrade --install smart-meal-frontend-service ./helm-frontend-service
@@ -158,58 +216,117 @@ Voici les commandes séparées en quatre blocs distincts :
 
 ---
 
-## ✅ Vérification du Déploiement
+## 🌐 Configure the `smart-meal.local` Domain
 
-1. **Vérifier les pods Kubernetes** :
+Manually add this line to your `/etc/hosts` file (Linux/Mac):
+
+```
+192.168.49.2 smart-meal.local
+```
+
+---
+
+## ✅ Verify Deployment
+
+1. **Check Kubernetes pods**:
 
    ```bash
    kubectl get pods
    ```
 
-2. **Lister les services exposés** :
+2. **Access the application**:
 
    ```bash
-   minikube service list
-   ```
-
-3. **Accéder à l'application** :
-
-   ```bash
-   minikube service smart-meal-frontend-service --url
+   https://smart-meal.local/30260
    ```
 
 ---
 
-## 🔍 Dépannage
+## 📊 **Adding Monitoring Tools with Prometheus and Grafana**  
 
-Si vous rencontrez des problèmes, essayez :
+### 📡 Installing Prometheus  
 
-1. **Vérifier les logs d’un pod** :
-
-   ```bash
-   kubectl logs <nom_du_pod>
-   ```
-
-2. **Vérifier les erreurs Helm** :
+1. **Create a namespace for monitoring**:  
 
    ```bash
-   helm list
+   kubectl create namespace monitoring
    ```
 
-3. **Redémarrer Minikube** :
+2. **Add the Prometheus repository and install Prometheus**:  
 
    ```bash
-   minikube delete
-   minikube start --driver=docker
+   helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+   helm install prometheus prometheus-community/prometheus --namespace monitoring -f ./k8s/monitoring/custom-values-prometheus.yaml
    ```
 
-4. **Consulter la documentation** :
-   - [Kubernetes](https://kubernetes.io/docs/)
-   - [Helm](https://helm.sh/docs/)
-   - [Minikube](https://minikube.sigs.k8s.io/docs/)
+3. **Access Prometheus**:  
+
+   ```bash
+   minikube service prometheus-server -n monitoring
+   ```
 
 ---
 
-## 🎉 Félicitations !
+### 📊 Installing Grafana  
 
-Votre application **Smart Meal** est maintenant déployée avec Kubernetes, Minikube et Helm. 🚀 
+1. **Add the Grafana repository and install Grafana**:  
+
+   ```bash
+   helm repo add grafana https://grafana.github.io/helm-charts
+   helm install grafana grafana/grafana --namespace monitoring --set adminPassword=marco -f ./k8s/monitoring/custom-values-grafana.yaml
+   ```
+
+2. **Access Grafana**:  
+
+   ```bash
+   minikube service grafana -n monitoring
+   ```
+
+3. **Add Prometheus as a data source in Grafana**:  
+
+   - **URL**: `http://192.168.49.2:30090`  
+
+4. **Add a Node_Exporter Dashboard** using **ID `1860`**.  
+
+---
+
+## 🚨 Configuring Alerts in Prometheus  
+
+1. **Set up alert rules**:  
+
+   ```bash
+   helm upgrade --reuse-values -f kubernetes-alert-rules.yaml prometheus prometheus-community/prometheus -n monitoring
+   ```
+
+2. **Configure email notifications for AlertManager**:  
+
+   ```bash
+   helm upgrade --reuse-values -f alertmanager-config.yaml prometheus prometheus-community/prometheus -n monitoring
+   ```
+
+---
+
+## 📦 Installing Loki and Promtail for Log Management  
+
+1. **Install Loki**:  
+
+   ```bash
+   helm install loki grafana/loki -f grafana-loki-values.yaml -n monitoring
+   ```
+
+2. **Install Promtail**:  
+
+   ```bash
+   helm install promtail grafana/promtail -n monitoring
+   kubectl --namespace monitoring port-forward daemonset/promtail 3101
+   ```
+
+3. **Add Loki as a data source in Grafana**:  
+
+   - **URL**: `http://loki-gateway.monitoring.svc.cluster.local/`  
+
+---
+
+## 🎉 Congratulations!  
+
+Your **Smart Meal** application is now fully deployed with Kubernetes, Minikube, and Helm, with integrated monitoring tools using Prometheus, Grafana, Loki, and Promtail. 🚀  

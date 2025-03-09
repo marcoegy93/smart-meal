@@ -1,0 +1,18 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: smart-meal-frontend-virtualservice
+spec:
+  hosts:
+    - "*"
+  gateways:
+    - smart-meal-api-gateway
+  http:
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            port:
+              number: {{ .Values.service.port }}
+            host: smart-meal-frontend-service.default.svc.cluster.local

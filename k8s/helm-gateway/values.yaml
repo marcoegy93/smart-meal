@@ -2,6 +2,14 @@ gateway:
   name: smart-meal-api-gateway
   selector:
     istio: ingressgateway
-  port: 80
-  nameServer: http
-  protocol: HTTP
+  http:
+    port: 80
+    nameServer: http
+    protocol: HTTP
+  https:
+    port: 443
+    nameServer: https
+    protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      credentialName: smart-meal-credential

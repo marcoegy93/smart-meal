@@ -7,8 +7,17 @@ spec:
     istio: {{ .Values.gateway.selector.istio }}
   servers:
     - port:
-        number: {{ .Values.gateway.port }}
-        name: {{ .Values.gateway.nameServer }}
-        protocol: {{ .Values.gateway.protocol }}
+        number: {{ .Values.gateway.https.port }}
+        name: {{ .Values.gateway.https.nameServer }}
+        protocol: {{ .Values.gateway.https.protocol }}
+      tls:
+        mode: {{ .Values.gateway.https.tls.mode }}
+        credentialName: {{ .Values.gateway.https.tls.credentialName }}
+      hosts:
+        - "*"
+    - port:
+        number: {{ .Values.gateway.http.port }}
+        name: {{ .Values.gateway.http.nameServer }}
+        protocol: {{ .Values.gateway.http.protocol }}
       hosts:
         - "*"
